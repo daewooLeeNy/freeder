@@ -1,24 +1,54 @@
 <template>
   <q-page>
     <div class="q-pa-md">
-      <h4 class="q-mt-md">당신의 목표 금액은?</h4>
+      <q-card bordered class="bg-secondary text-white">
+        <q-card-section>
+          <div class="text-h6 ">
+            낙원이란?
+          </div>
+
+          <div class="text-subtitle2">
+            일하지 않고도 원하는 생활을 할 수 있는 재정 상태를 말합니다. <br />
+            예를들어, 일하지 않은 상태에서 월 500만원을 생활비로 생활하고 이
+            생활비가 자본소득으로 월 500만원이 들어온다면 낙원(Paradise)
+            상태입니다. (혹은 경제적자유 상태) <br />
+          </div>
+        </q-card-section>
+      </q-card>
+    </div>
+
+    <div class="q-pa-md">
+      <h4 class="q-my-md">당신의 자산 목표 금액은?</h4>
+      <p>
+        현재의 자산과 저축금액을 입력해서 은퇴시점에 얼마가 모아지는지
+        계산해보세요. <br />
+        그리고 자산/저축/은퇴시점/수익율을 조정 해가며 재정 목표치를 정해보세요.
+      </p>
+      <p>
+        <q-btn
+          color="primary"
+          label="자산=2억 저축=1200 은퇴=10년후 수익율=10% 예제"
+          icon-right="open_in_new"
+          @click="sample = true"
+        ></q-btn>
+      </p>
 
       <div class="row q-col-gutter-xs">
-        <div class="col-4 col-md-4 col-lg-2  col-xl-2  input-short-won">
+        <div class="col-6 col-xl-2  input-short-won">
           <q-input
             v-model="assets"
-            label="자산"
+            label="보유 자산"
             stack-label
             :dense="dense"
             suffix="만원"
-            placeholder="e.g. 10,000"
+            placeholder="은퇴기간 동안 자본소득을 발생 시키는 자산 금액입니다"
             @input="assets = formatNumber($event)"
           >
             <q-tooltip>현재 자산을 만원 단위로 입력해주세요.</q-tooltip>
           </q-input>
         </div>
 
-        <div class="col-4 col-md-4 col-lg-2 col-xl-2 input-short-won">
+        <div class="col-6 col-xl-2 input-short-won">
           <q-input
             v-model="yearSavingAmount"
             type="text"
@@ -26,7 +56,7 @@
             stack-label
             :dense="dense"
             suffix="만원"
-            placeholder="e.g. 1,200"
+            placeholder="한해 동안 저축 가능한 금액입니다"
             @input="yearSavingAmount = formatNumber($event)"
           >
             <q-tooltip
@@ -35,40 +65,43 @@
           </q-input>
         </div>
 
-        <div class="col-4 col-md-4 col-lg-2 col-xl-1">
+        <div class="col-4 input-short-won">
           <q-input
             v-model="termsOfRetire"
-            label="은퇴시점"
+            label="은퇴시기"
             stack-label
             :dense="dense"
-            suffix="년"
-            placeholder="e.g. 20"
+            suffix="년 후"
+            placeholder="은퇴까지 남은 기간을 입력해주세요"
             @input="termsOfRetire = formatNumber($event)"
           >
-            <q-tooltip>은퇴하고 싶은 시기를 적어주세요.</q-tooltip>
+            <q-tooltip>은퇴까지 남은 기간을 입력해주세요.</q-tooltip>
           </q-input>
         </div>
-        <div class="col-4 col-md-4  col-lg-2 col-xl-1">
+        <div class="col-4">
           <q-input
             v-model="interest"
             label="수익율"
             stack-label
             :dense="dense"
             suffix="%"
-            placeholder="e.g. 8"
+            placeholder="목표 명목수익율 (숫자만 입력)"
             @input="interest = formatNumber($event)"
           >
-            <q-tooltip>명목 수익율을 입력해주세요.</q-tooltip>
+            <q-tooltip
+              >명목 수익율은 인플레이션을 고려하지 않은 일반적으로 우리 눈에
+              보이는 수익율입니다.</q-tooltip
+            >
           </q-input>
         </div>
-        <div class="col-4 col-md-4  col-lg-2 col-xl-1">
+        <div class="col-4">
           <q-input
             v-model="inflation"
-            label="인플레이션"
+            label="저축 증가율"
             stack-label
             :dense="dense"
             suffix="%"
-            placeholder="e.g. 2"
+            placeholder="실질 저축금액을 유지하기 위한 비율(=인플레이션)"
             @input="inflation = formatNumber($event)"
           >
             <q-tooltip
@@ -85,8 +118,9 @@
         <div class="col-6 col-md-4">
           <q-field
             bg-color="cyan-1"
-            :label="`${termsOfRetire}년 후 모아지는 돈`"
+            :label="`은퇴 후 자산`"
             stack-label
+            hint="자산 * 수익율^은퇴시기 + 저축금액 * (수익율 ^ 은퇴시기 - 저축증가율 ^ 은퇴시기) / (실질수익율)"
           >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
@@ -94,13 +128,18 @@
               </div>
             </template>
             <q-tooltip>
-              {{ termsOfRetire }} 년 후에 모아지는 돈입니다.</q-tooltip
+              {{ termsOfRetire || "X" }} 년 후에 모아지는 돈입니다.</q-tooltip
             >
           </q-field>
         </div>
 
         <div class="col-6 col-md-4">
-          <q-field bg-color="cyan-1" :label="`근접 낙원 월 금액`" stack-label>
+          <q-field
+            bg-color="cyan-1"
+            :label="`근접 낙원 월 금액`"
+            stack-label
+            hint="은퇴 후 자산과 가장 근접한 낙원금액의 월 금액과 수익율"
+          >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
                 {{
@@ -122,10 +161,14 @@
     </div>
 
     <div class="q-pa-md">
-      <h4 class="q-mt-md">당신의 낙원 금액은?</h4>
+      <h4 class="q-my-md">당신의 낙원 금액은?</h4>
+      <p>
+        자산 목표 금액에서 입력한 수익율과 인플레이션을 기준으로 생성된 낙원
+        테이블입니다. <br />
+        월 소비금액과 수익율에 따라서 낙원 금액이 어떻게 차이 나는지 확인
+        해보세요.
+      </p>
 
-      <!-- <div class="q-gutter-md row"> -->
-      <!-- <div style="q-gutter-"> -->
       <div class="row q-col-gutter-xs">
         <div class="col-6 col-md-4">
           <q-select
@@ -159,7 +202,15 @@
         </div>
 
         <div class="col-6 col-md-4">
-          <q-field label="낙원 금액" stack-label>
+          <q-field
+            label="낙원 금액"
+            stack-label
+            :hint="
+              `${termsOfRetire || 'X'}년 후에 수익율 ${interest ||
+                'X'}%로 월 소비액 (${format10ThousandUnitNumber(monthlySpend) ||
+                'X'}만원)을 매달 평생동안 쓸 수 있는 (=낙원) 금액입니다.`
+            "
+          >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
                 {{ paradiseAmount | format10Thousand | perThousand }} 만원
@@ -179,6 +230,7 @@
             label="낙원까지 남은금액"
             :bg-color="paradiseStateColor()"
             stack-label
+            hint="[낙원금액 - 은퇴 후 자산]으로 낙원금액과 얼마나 차이가 나는지 나타냅니다."
           >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
@@ -212,7 +264,6 @@
       >
         <template v-slot:body-cell="scope">
           <q-td :class="scope.row[scope.col.field + '_color']">
-            <!-- {{ scope.row[scope.col.field] }} -->
             {{ scope.value }}
           </q-td>
         </template>
@@ -263,6 +314,32 @@
         </q-card-section>
       </q-card>
     </div>
+
+    <q-dialog v-model="sample" :maximized="true">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6 text-red">
+            자산은 2억, 월 100만원씩 저축(년 1,200만원), 은퇴시기는 10년후, 명목
+            수익율은 10%, 월 소비액 500만원 예제 입니다.
+          </div>
+        </q-card-section>
+
+        <q-img src="statics/sample.png" />
+
+        <q-card-actions align="right">
+          <q-btn
+            flat
+            color="primary"
+            @click="
+              sample = false;
+              useDefault();
+            "
+            >사용하기</q-btn
+          >
+          <q-btn color="primary" v-close-popup>닫기</q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -286,7 +363,7 @@ export default {
       interest: "",
       // 만단위
       yearSavingAmount: "",
-      inflation: "",
+      inflation: 2,
       termsOfRetire: "",
       dense: false,
       denseOpts: false,
@@ -305,7 +382,9 @@ export default {
           format: val => `월 ${this.format10ThousandUnitNumber(val)}`,
           sortable: false
         }
-      ]
+      ],
+      // sample popup flag
+      sample: false
     };
   },
   mounted() {
@@ -530,6 +609,15 @@ export default {
       } else {
         return stateColors[2];
       }
+    },
+
+    useDefault() {
+      this.assets = this.formatNumber(20000);
+      this.yearSavingAmount = this.formatNumber(1200);
+      this.interest = 10;
+      this.inflation = 2;
+      this.termsOfRetire = 10;
+      this.monthlySpend = 5000000;
     }
   }
 };
