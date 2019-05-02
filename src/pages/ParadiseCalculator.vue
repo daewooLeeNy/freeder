@@ -127,7 +127,9 @@
           >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
-                {{ totalAssets | format10Thousand | perThousand }} 만원
+                {{
+                  totalAssets | formatMultipleUnitFrom10TTo100M | perThousand
+                }}
               </div>
             </template>
             <q-tooltip>
