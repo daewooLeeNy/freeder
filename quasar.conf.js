@@ -72,15 +72,18 @@ module.exports = function(ctx) {
           exclude: /node_modules/
         });
 
-        const CopyWebpackPlugin = require("copy-webpack-plugin");
-        cfg.plugins.push(
-          new CopyWebpackPlugin([
-            {
-              from: "src/CNAME",
-              to: cfg.output.path
-            }
-          ])
-        );
+        // dev mode일때 path 에러 발생하여 dev 모드일때 제외 처리
+        if (!ctx.dev) {
+          const CopyWebpackPlugin = require("copy-webpack-plugin");
+          cfg.plugins.push(
+            new CopyWebpackPlugin([
+              {
+                from: "src/CNAME",
+                to: cfg.output.path
+              }
+            ])
+          );
+        }
       }
     },
 

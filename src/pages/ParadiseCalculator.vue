@@ -9,9 +9,9 @@
 
           <div class="text-subtitle2">
             일하지 않고도 원하는 생활을 할 수 있는 재정 상태를 말합니다. <br />
-            예를들어, 일하지 않은 상태에서 월 500만원을 생활비로 생활하고 이
-            생활비가 자본소득으로 월 500만원이 들어온다면 낙원(Paradise)
-            상태입니다. (혹은 경제적자유 상태) <br />
+            예를들어, 원하는 생활 수준(월 500만원)을 하기 위한 생활비가
+            자본소득으로 획득이 가능 할때(월 500만원)이 들어온다면
+            낙원(Paradise) 상태입니다. (혹은 경제적자유 상태) <br />
           </div>
         </q-card-section>
       </q-card>
@@ -20,18 +20,21 @@
     <div class="q-pa-md">
       <h4 class="q-my-md">당신의 자산 목표 금액은?</h4>
       <p>
-        현재의 자산과 저축금액을 입력해서 은퇴시점에 얼마가 모아지는지
+        현재의 자산과 저축금액을 입력해서 은퇴시점의 자산이 어느정도 수준인지
         계산해보세요. <br />
-        그리고 자산/저축/은퇴시점/수익율을 조정 해가며 재정 목표치를 정해보세요.
+        그리고 자산/저축/은퇴시점/수익율을 수치를 조절 하면서 재정 목표치를
+        정해보세요.
       </p>
-      <p>
-        <q-btn
-          color="primary"
-          label="자산=2억 저축=1200 은퇴=10년후 수익율=10% 예제"
-          icon-right="open_in_new"
-          @click="sample = true"
-        ></q-btn>
-      </p>
+
+      <q-btn
+        color="primary"
+        label="자산:2억 저축:1200 은퇴:10년후 수익:10% 예제"
+        icon-right="open_in_new"
+        @click="
+          sample = true;
+          maximized = $q.screen.gt.md ? false : true;
+        "
+      ></q-btn>
 
       <div class="row q-col-gutter-xs">
         <div class="col-6 col-xl-2  input-short-won">
@@ -142,13 +145,15 @@
           >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
-                {{
-                  findNearParadiseValue(totalAssets)["monthlySpend"]
-                    | format10Thousand
-                    | perThousand
-                }}
-                만원 /
-                {{ findNearParadiseValue(totalAssets)["nearInterest"] }} %
+                <span v-if="totalAssets > 0">
+                  {{
+                    findNearParadiseValue(totalAssets)["monthlySpend"]
+                      | format10Thousand
+                      | perThousand
+                  }}
+                  만원 /
+                  {{ findNearParadiseValue(totalAssets)["nearInterest"] }} %
+                </span>
               </div>
             </template>
             <q-tooltip
@@ -205,15 +210,20 @@
           <q-field
             label="낙원 금액"
             stack-label
-            :hint="
-              `${termsOfRetire || 'X'}년 후에 수익율 ${interest ||
-                'X'}%로 월 소비액 (${format10ThousandUnitNumber(monthlySpend) ||
-                'X'}만원)을 매달 평생동안 쓸 수 있는 (=낙원) 금액입니다.`
-            "
+            hint="연복리 수익율, 10년 후 현재 가치(인플레 포함)"
           >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
-                {{ paradiseAmount | format10Thousand | perThousand }} 만원
+                <span v-if="paradiseAmount > 0">
+                  {{ termsOfRetire }}년후
+                  {{
+                    paradiseAmount
+                      | formatMultipleUnitFrom10TTo100M
+                      | perThousand
+                  }}으로 연{{ interest }}%면
+                  {{ monthlySpend | format10Thousand | perThousand }}만
+                  Paradise!
+                </span>
               </div>
             </template>
             <q-tooltip
@@ -230,11 +240,11 @@
             label="낙원까지 남은금액"
             :bg-color="paradiseStateColor()"
             stack-label
-            hint="[낙원금액 - 은퇴 후 자산]으로 낙원금액과 얼마나 차이가 나는지 나타냅니다."
+            hint="[낙원금액 - 은퇴 후 자산]으로 낙원금액과의 차이"
           >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
-                <span v-if="paradiseAmount">
+                <span v-if="paradiseAmount > 0 && totalAssets > 0">
                   {{
                     (paradiseAmount - totalAssets)
                       | format10Thousand
@@ -315,16 +325,14 @@
       </q-card>
     </div>
 
-    <q-dialog v-model="sample" :maximized="true">
+    <q-dialog v-model="sample" :maximized="maximized">
       <q-card>
         <q-card-section>
-          <div class="text-h6 text-red">
+          <div class="text-h8 text-red">
             자산은 2억, 월 100만원씩 저축(년 1,200만원), 은퇴시기는 10년후, 명목
             수익율은 10%, 월 소비액 500만원 예제 입니다.
           </div>
         </q-card-section>
-
-        <q-img src="statics/sample.png" />
 
         <q-card-actions align="right">
           <q-btn
@@ -338,6 +346,8 @@
           >
           <q-btn color="primary" v-close-popup>닫기</q-btn>
         </q-card-actions>
+        <!-- <q-img src="statics/sample.png" height="70%" /> -->
+        <img src="statics/sample.png" />
       </q-card>
     </q-dialog>
   </q-page>
@@ -384,7 +394,8 @@ export default {
         }
       ],
       // sample popup flag
-      sample: false
+      sample: false,
+      maximized: false
     };
   },
   mounted() {
@@ -403,7 +414,9 @@ export default {
   },
   watch: {
     monthlySpend() {
-      this.paradiseAmount = this.calculateParadiseAmount();
+      if (this.inflation > 0 && this.interest > 0 && this.termsOfRetire > 0) {
+        this.paradiseAmount = this.calculateParadiseAmount();
+      }
     },
     assets() {
       this.initParadaiseDatas();
@@ -570,6 +583,10 @@ export default {
       inflation = this.inflation,
       terms = this.termsOfRetire
     ) {
+      if (interest <= 0 || inflation <= 0) {
+        return undefined;
+      }
+
       var _interest = interest / 100;
       var _inflation = inflation / 100;
       var paradise =
@@ -596,7 +613,12 @@ export default {
     },
 
     paradiseStateColor() {
-      if (!this.paradiseAmount) {
+      console.log(this.totalAssets);
+      if (isNaN(this.paradiseAmount) || this.paradiseAmount <= 0) {
+        return "";
+      }
+
+      if (isNaN(this.totalAssets) || this.totalAssets <= 0) {
         return "";
       }
 
