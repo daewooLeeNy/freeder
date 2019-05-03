@@ -327,7 +327,7 @@
       </q-card>
     </div>
 
-    <q-dialog v-model="sample" :maximized="maximized">
+    <q-dialog v-model="sample" :maximized="false">
       <q-card>
         <q-card-section>
           <div class="text-h8 text-red">
@@ -615,7 +615,6 @@ export default {
     },
 
     paradiseStateColor() {
-      console.log(this.totalAssets);
       if (isNaN(this.paradiseAmount) || this.paradiseAmount <= 0) {
         return "";
       }
