@@ -3,15 +3,14 @@
     <div class="q-pa-md">
       <q-card bordered class="bg-secondary text-white">
         <q-card-section>
-          <div class="text-h6 ">
-            낙원이란?
-          </div>
+          <div class="text-h6">낙원이란?</div>
 
           <div class="text-subtitle2">
-            일하지 않고도 원하는 생활을 할 수 있는 재정 상태를 말합니다. <br />
-            예를들어, 원하는 생활 수준(월 500만원)을 하기 위한 생활비가
+            일하지 않고도 원하는 생활을 할 수 있는 재정 상태를 말합니다.
+            <br />예를들어, 원하는 생활 수준(월 500만원)을 하기 위한 생활비가
             자본소득으로 획득이 가능 할때(월 500만원)이 들어온다면
-            낙원(Paradise) 상태 입니다. (혹은 경제적자유 상태) <br />
+            낙원(Paradise) 상태 입니다. (혹은 경제적자유 상태)
+            <br />
           </div>
         </q-card-section>
       </q-card>
@@ -21,9 +20,9 @@
       <h4 class="q-my-md">당신의 자산 목표 금액은?</h4>
       <p>
         현재의 자산과 저축금액을 입력해서 은퇴시점의 자산이 어느정도 수준인지
-        계산해보세요. <br />
-        그리고 자산/저축/은퇴시점/수익율을 수치를 조절 하면서 재정 목표치를
-        정해보세요.
+        계산해보세요.
+        <br />그리고 자산/저축/은퇴시점/수익율을 수치를 조절 하면서 재정
+        목표치를 정해보세요.
       </p>
 
       <q-btn
@@ -37,7 +36,7 @@
       ></q-btn>
 
       <div class="row q-col-gutter-xs">
-        <div class="col-6 col-xl-2  input-short-won">
+        <div class="col-6 col-xl-2 input-short-won">
           <q-input
             v-model="assets"
             label="보유 자산"
@@ -84,17 +83,17 @@
         <div class="col-4">
           <q-input
             v-model="interest"
-            label="수익율"
+            label="명목 수익율"
             stack-label
             :dense="dense"
             suffix="%"
             placeholder="목표 명목수익율 (숫자만 입력)"
             @input="interest = formatNumber($event)"
           >
-            <q-tooltip
-              >명목 수익율은 인플레이션을 고려하지 않은 일반적으로 우리 눈에
-              보이는 수익율입니다.</q-tooltip
-            >
+            <q-tooltip>
+              명목 수익율은 인플레이션을 고려하지 않은 일반적으로 우리 눈에
+              보이는 수익율입니다.
+            </q-tooltip>
           </q-input>
         </div>
         <div class="col-4">
@@ -107,8 +106,8 @@
             placeholder="실질 저축금액을 유지하기 위한 비율(=인플레이션)"
             @input="inflation = formatNumber($event)"
           >
-            <q-tooltip
-              >예상 인플레이션을 입력해주세요. 저축금액을 매년 인플레이션 만큼
+            <q-tooltip>
+              예상 인플레이션을 입력해주세요. 저축금액을 매년 인플레이션 만큼
               추가로 저축 한다고 가정합니다. (2~3%)
             </q-tooltip>
           </q-input>
@@ -128,12 +127,14 @@
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
                 {{
-                  totalAssets | formatMultipleUnitFrom10TTo100M | perThousand
+                  totalAssets
+                    | formatMultipleUnitFrom10TTo100M
+                    | perThousand(true)
                 }}
               </div>
             </template>
-            <q-tooltip>
-              {{ termsOfRetire || "X" }} 년 후에 모아지는 돈입니다.</q-tooltip
+            <q-tooltip
+              >{{ termsOfRetire || "X" }} 년 후에 모아지는 돈입니다.</q-tooltip
             >
           </q-field>
         </div>
@@ -143,25 +144,23 @@
             bg-color="cyan-1"
             :label="`근접 낙원 월 금액`"
             stack-label
-            hint="은퇴 후 자산과 가장 근접한 낙원금액의 월 금액과 수익율"
+            hint="은퇴 후 자산과 가장 근접한 낙원금액의 월 금액과 실질 수익율"
           >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
                 <span v-if="totalAssets > 0">
-                  {{
-                    findNearParadiseValue(totalAssets)["monthlySpend"]
-                      | format10Thousand
-                      | perThousand
-                  }}
+                  {{ foundMonthlySpend | format10Thousand | perThousand }}
                   만원 /
-                  {{ findNearParadiseValue(totalAssets)["nearInterest"] }} %
+                  {{ foundInterest }} % (명목:{{
+                    addNumber(foundInterest, inflation)
+                  }}%)
                 </span>
               </div>
             </template>
-            <q-tooltip
-              >모아지는 돈과 가장 근사한 낙원금액을 만들기 위한 월금액과
-              수익율을 보여줍니다.</q-tooltip
-            >
+            <q-tooltip>
+              모아지는 돈과 가장 근사한 낙원금액을 만들기 위한 월금액과 실질
+              실질 수익율을 보여줍니다.
+            </q-tooltip>
           </q-field>
         </div>
       </div>
@@ -171,8 +170,8 @@
       <h4 class="q-my-md">당신의 낙원 금액은?</h4>
       <p>
         자산 목표 금액에서 입력한 수익율과 인플레이션을 기준으로 생성된 낙원
-        테이블입니다. <br />
-        월 소비금액과 수익율에 따라서 낙원 금액이 어떻게 차이 나는지 확인
+        테이블입니다.
+        <br />월 소비금액과 수익율에 따라서 낙원 금액이 어떻게 차이 나는지 확인
         해보세요.
       </p>
 
@@ -186,24 +185,23 @@
             stack-label
             :dense="dense"
             :options-dense="denseOpts"
+            hint="현재가치 기준"
           >
             <template v-slot:option="scope">
               <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
                 <q-item-section>
-                  <q-item-label caption
-                    >{{
-                      scope.opt | format10Thousand | perThousand
-                    }}
-                    만원</q-item-label
-                  >
+                  <q-item-label caption>
+                    {{ scope.opt | format10Thousand | perThousand }}
+                    만원
+                  </q-item-label>
                 </q-item-section>
               </q-item>
             </template>
 
             <template v-slot:selected>
-              <span v-if="monthlySpend">
-                {{ monthlySpend | format10Thousand | perThousand }} 만원
-              </span>
+              <span v-if="monthlySpend"
+                >{{ monthlySpend | format10Thousand | perThousand }} 만원</span
+              >
             </template>
           </q-select>
         </div>
@@ -212,7 +210,8 @@
           <q-field
             label="낙원 금액"
             stack-label
-            hint="연복리 수익율, 10년 후 현재 가치(인플레 포함)"
+            hint="연복리 실질 수익율, 현재 가치의 월 금액"
+            bg-color="green-1"
           >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
@@ -221,19 +220,20 @@
                   {{
                     paradiseAmount
                       | formatMultipleUnitFrom10TTo100M
-                      | perThousand
-                  }}으로 연{{ interest }}%면
-                  {{ monthlySpend | format10Thousand | perThousand }}만
-                  Paradise!
+                      | perThousand(true)
+                  }}/연{{ addNumber(interest, -inflation) }}%로 월{{
+                    monthlySpend | format10Thousand | perThousand
+                  }}만원 Paradise!
                 </span>
               </div>
             </template>
-            <q-tooltip
-              >{{ termsOfRetire }}년 후에 수익율{{ interest }}%로 월 소비액({{
+            <q-tooltip>
+              {{ termsOfRetire }}년 후에 수익율{{ interest }}%로 월 소비액({{
                 monthlySpend | format10Thousand | perThousand
-              }}만원)을 평생~ 쓸 수 있는 낙원을 이룰수 있는
-              금액입니다.</q-tooltip
-            >
+              }}만원. ({{ termsOfRetire }}년 인플레 포함 =
+              {{ monthlySpend * Math.pow(1 + interest, termsOfRetire) }}만원)을
+              평생~ 쓸 수 있는 낙원을 이룰수 있는 금액입니다.
+            </q-tooltip>
           </q-field>
         </div>
 
@@ -248,18 +248,17 @@
               <div class="self-center full-width no-outline" tabindex="0">
                 <span v-if="paradiseAmount > 0 && totalAssets > 0">
                   {{
-                    (paradiseAmount - totalAssets)
-                      | format10Thousand
+                    addNumber(paradiseAmount, -totalAssets)
+                      | formatMultipleUnitFrom10TTo100M
                       | perThousand
                   }}
-                  만원
                 </span>
               </div>
             </template>
-            <q-tooltip
-              >입력하신 자산과 저축액, 수익율로 산출된 모을수 있는 돈과 낙원
-              금액과의 차이 입니다. (음수는 낙원금액을 초과)</q-tooltip
-            >
+            <q-tooltip>
+              입력하신 자산과 저축액, 수익율로 산출된 모을수 있는 돈과 낙원
+              금액과의 차이 입니다. (음수는 낙원금액을 초과)
+            </q-tooltip>
           </q-field>
         </div>
       </div>
@@ -272,12 +271,21 @@
         :columns="paradise_columns"
         row-key="name"
         :pagination="{ rowsPerPage: 15 }"
-        hide-bottom
       >
         <template v-slot:body-cell="scope">
-          <q-td :class="scope.row[scope.col.field + '_color']">
-            {{ scope.value }}
-          </q-td>
+          <q-td :class="scope.row[scope.col.field + '_color']">{{
+            scope.value
+          }}</q-td>
+        </template>
+
+        <template v-slot:bottom="scope">
+          <div>
+            ** 월 금액: 현재 가치, 수익율: 실질 수익율,
+          </div>
+          <div>
+            낙원금액 계산식: (월 금액 * 12 * (1+인플레이션) ^ 은퇴시기) / 실질
+            수익율
+          </div>
         </template>
       </q-table>
     </div>
@@ -395,6 +403,8 @@ export default {
           sortable: false
         }
       ],
+      foundMonthlySpend: "",
+      foundInterest: "",
       // sample popup flag
       sample: false,
       maximized: false
@@ -418,6 +428,7 @@ export default {
     monthlySpend() {
       if (this.inflation > 0 && this.interest > 0 && this.termsOfRetire > 0) {
         this.paradiseAmount = this.calculateParadiseAmount();
+        this.initParadaiseDatas();
       }
     },
     assets() {
@@ -432,6 +443,7 @@ export default {
     },
     interest() {
       this.paradiseAmount = this.calculateParadiseAmount();
+      this.initParadaiseDatas();
     },
     termsOfRetire() {
       this.paradiseAmount = this.calculateParadiseAmount();
@@ -440,6 +452,14 @@ export default {
   },
   computed: {
     totalAssets() {
+      if (this.interest <= 0) {
+        return "";
+      }
+
+      if (this.assets <= 0 && this.yearSavingAmount <= 0) {
+        return "";
+      }
+
       var assets = numeral(this.assets || 0)
         .multiply(10000)
         .value();
@@ -451,8 +471,10 @@ export default {
 
       var inflation = numeral(this.inflation || 0).value();
 
+      var calAssets =
+        numeral(assets).value() * Math.pow(1 + interest / 100, termsOfRetire);
       return (
-        numeral(assets).value() * Math.pow(1 + interest / 100, termsOfRetire) +
+        calAssets +
         (yearSavingAmount *
           (Math.pow(1 + interest / 100, termsOfRetire) -
             Math.pow(1 + inflation / 100, termsOfRetire))) /
@@ -464,6 +486,7 @@ export default {
     initParadaiseDatas: _.debounce(function() {
       this.paradise_data.splice(0, this.paradise_data.length);
       this.paradise_data.push(...this.calculateParadiseDatas());
+      this.findNearParadiseValue();
     }, 300),
 
     inputNumberHandler(target) {
@@ -484,7 +507,7 @@ export default {
     },
 
     createMonthlySpends() {
-      var rangeValues = _.range(1, 15);
+      var rangeValues = _.range(1, 20);
       var data = [];
       rangeValues.forEach(value => {
         data.push(value * 1000000);
@@ -517,13 +540,15 @@ export default {
     calculateParadiseDatas() {
       // 1 to this.interest * 2
       // 1 to 15%
-      var rangeValues = _.range(1, 15);
+      var rangeValues = _.range(1, 20);
       var data = [];
 
       var nearTotalAssetGapValue = undefined;
       var nearTotalAssetGapIndex = [];
 
       var totalAssets = numeral(this.totalAssets).value();
+      var actualInterest = this.addNumber(this.interest, -this.inflation);
+      var userMonthlySpend = numeral(this.monthlySpend).value();
       this.monthlySpends.forEach((monthlySpend, idx) => {
         var item = {};
         item.monthlySpend = monthlySpend;
@@ -549,6 +574,14 @@ export default {
               nearTotalAssetGapIndex.push({ index: idx, colName: colName });
             }
           }
+
+          if (
+            userMonthlySpend &&
+            userMonthlySpend === item.monthlySpend &&
+            actualInterest === rangeValue
+          ) {
+            item[colName + "_color"] = "bg-green-1";
+          }
         });
 
         data.push(item);
@@ -557,14 +590,12 @@ export default {
       nearTotalAssetGapIndex.forEach(
         near => (data[near.index][near.colName + "_color"] = "bg-cyan-1")
       );
-      // data[nearTotalAssetGapIndex][nearTotalAssetGapColName + "_color"] =
-      //   "bg-light-blue-10";
 
       return data;
     },
 
     createParadiseColumns() {
-      var rangeValues = _.range(1, 15);
+      var rangeValues = _.range(1, 20);
 
       rangeValues.forEach(rangeValue => {
         var name = `interest${rangeValue}`;
@@ -581,7 +612,7 @@ export default {
 
     calculateParadiseAmount(
       amount = this.monthlySpend,
-      interest = this.interest,
+      interest = parseInt(this.interest || 0) - parseInt(this.inflation || 0),
       inflation = this.inflation,
       terms = this.termsOfRetire
     ) {
@@ -609,8 +640,8 @@ export default {
         copy["nearInterest"] = interest;
       }
 
-      // return found[key.substring(0, key.indexOf("_color"))]
-      // return (found && found.monthlySpend) || 0;
+      this.foundMonthlySpend = copy.monthlySpend;
+      this.foundInterest = copy.nearInterest;
       return copy;
     },
 
@@ -627,7 +658,7 @@ export default {
       var rate = (this.paradiseAmount - this.totalAssets) / this.totalAssets;
       if (rate >= 0.5) {
         return stateColors[0];
-      } else if (rate >= -0.1 && rate <= 0.1) {
+      } else if (rate > -0.5 && rate < 0.5) {
         return stateColors[1];
       } else {
         return stateColors[2];
@@ -641,6 +672,10 @@ export default {
       this.inflation = 2;
       this.termsOfRetire = 10;
       this.monthlySpend = 5000000;
+    },
+
+    addNumber(value1, value2) {
+      return parseInt(value1 || 0) + parseInt(value2 || 0);
     }
   }
 };
