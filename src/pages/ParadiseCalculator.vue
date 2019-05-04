@@ -278,7 +278,7 @@
         :data="paradise_data"
         :columns="paradise_columns"
         row-key="name"
-        :pagination="{ rowsPerPage: 15 }"
+        :pagination="{ rowsPerPage: 40 }"
       >
         <template v-slot:body-cell="scope">
           <q-td :class="scope.row[scope.col.field + '_color']">{{
