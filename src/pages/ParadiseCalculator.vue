@@ -637,21 +637,21 @@ export default {
     },
 
     findNearParadiseValue() {
-      var key;
-      var found = _.find(this.paradise_data, data => {
-        key = _.find(Object.keys(data), key => key.indexOf("_color") >= 0);
-        return !!key;
+      var actualInterest = this.addNumber(this.interest, -this.inflation);
+      var key = `interest${actualInterest}`;
+
+      var beforeNearAmountGap;
+      var monthlySpend;
+      _.forEach(this.paradise_data, data => {
+        var gap = Math.abs(data[key] - this.totalAssets);
+        if (!beforeNearAmountGap || beforeNearAmountGap > gap) {
+          beforeNearAmountGap = gap;
+          monthlySpend = data["monthlySpend"];
+        }
       });
 
-      var copy = _.cloneDeep(found || {});
-      if (key) {
-        var interest = key.substring("interest".length, key.indexOf("_color"));
-        copy["nearInterest"] = interest;
-      }
-
-      this.foundMonthlySpend = copy.monthlySpend;
-      this.foundInterest = copy.nearInterest;
-      return copy;
+      this.foundMonthlySpend = monthlySpend;
+      this.foundInterest = actualInterest;
     },
 
     paradiseStateColor() {
