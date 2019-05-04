@@ -10,7 +10,11 @@ const routes = [
         component: () => paradiseCalculator,
         redirect: "/paradise-calculator"
       },
-      { path: "paradise-calculator", component: () => paradiseCalculator }
+      { path: "paradise-calculator", component: () => paradiseCalculator },
+      {
+        path: "paradise-calculator2",
+        component: () => import("pages/ParadiseCalculator2.vue")
+      }
     ]
   }
 ];

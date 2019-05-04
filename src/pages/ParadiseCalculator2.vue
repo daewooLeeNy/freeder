@@ -113,57 +113,51 @@
           </q-input>
         </div>
       </div>
+    </div>
 
-      <q-separator spaced></q-separator>
+    <div class="q-pa-md" v-if="totalAssets > 0">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">
+            은퇴후 자산은
+            <span class="text-h4 text-red">{{
+              totalAssets | formatMultipleUnitFrom10TTo100M | perThousand(true)
+            }}</span>
+            입니다.
+          </div>
+        </q-card-section>
 
-      <div class="row q-col-gutter-xs">
-        <div class="col-6 col-md-4">
-          <q-field
-            bg-color="cyan-1"
-            :label="`은퇴 후 자산`"
-            stack-label
-            hint="자산 * 수익율^은퇴시기 + 저축금액 * (수익율 ^ 은퇴시기 - 저축증가율 ^ 은퇴시기) / (실질수익율)"
-          >
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">
-                {{
-                  totalAssets
-                    | formatMultipleUnitFrom10TTo100M
-                    | perThousand(true)
-                }}
-              </div>
-            </template>
-            <q-tooltip
-              >{{ termsOfRetire || "X" }} 년 후에 모아지는 돈입니다.</q-tooltip
-            >
-          </q-field>
-        </div>
-
-        <div class="col-6 col-md-4">
-          <q-field
-            bg-color="cyan-1"
-            :label="`근접 낙원 월 금액`"
-            stack-label
-            hint="은퇴 후 자산과 가장 근접한 낙원금액의 월 금액과 실질 수익율"
-          >
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">
-                <span v-if="totalAssets > 0">
-                  {{ foundMonthlySpend | format10Thousand | perThousand }}
-                  만원 /
-                  {{ foundInterest }} % (명목:{{
-                    addNumber(foundInterest, inflation)
-                  }}%)
-                </span>
-              </div>
-            </template>
-            <q-tooltip>
-              모아지는 돈과 가장 근사한 낙원금액을 만들기 위한 월금액과 실질
-              실질 수익율을 보여줍니다.
-            </q-tooltip>
-          </q-field>
-        </div>
-      </div>
+        <q-card-section>
+          - 근접한 낙원 금액은&nbsp;
+          <span class="text-subtitle1 text-indigo">
+            월
+            {{ foundMonthlySpend | format10Thousand | perThousand }}
+            만원 / 실질 수익율
+            {{ foundInterest }} % (명목 수익율:{{
+              addNumber(foundInterest, inflation)
+            }}%)
+          </span>
+          입니다.
+        </q-card-section>
+        <q-card-section>
+          - 인플레이션을 감안한 현재가치는
+          {{
+            calculateParadiseMonthlySpendByCurrentValue()
+              | formatMultipleUnitFrom10TTo100M
+              | perThousand
+          }}
+          이고,
+          <span class="text-indigo">
+            {{ termsOfRetire }}년 후 월 금액은
+            {{
+              calculateParadiseMonthlySpendByFutureValue()
+                | formatMultipleUnitFrom10TTo100M
+                | perThousand
+            }}
+          </span>
+          입니다.
+        </q-card-section>
+      </q-card>
     </div>
 
     <div class="q-pa-md">
@@ -184,7 +178,7 @@
       </div>
 
       <div class="row q-col-gutter-xs">
-        <div class="col-6 col-md-4">
+        <div class="col-12">
           <q-select
             filled
             v-model="monthlySpend"
@@ -193,7 +187,7 @@
             stack-label
             :dense="dense"
             :options-dense="denseOpts"
-            hint="현재가치 기준"
+            :hint="monthlySpendValidationMessage()"
           >
             <template v-slot:option="scope">
               <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
@@ -213,66 +207,55 @@
             </template>
           </q-select>
         </div>
-
-        <div class="col-6 col-md-4">
-          <q-field
-            label="낙원 금액"
-            stack-label
-            hint="연복리 실질 수익율, 현재 가치의 월 금액"
-            bg-color="green-1"
-          >
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">
-                <span v-if="paradiseAmount > 0">
-                  {{ termsOfRetire }}년후
-                  {{
-                    paradiseAmount
-                      | formatMultipleUnitFrom10TTo100M
-                      | perThousand(true)
-                  }}/연{{ addNumber(interest, -inflation) }}%로 월{{
-                    monthlySpend | format10Thousand | perThousand
-                  }}만원 Paradise!
-                </span>
-              </div>
-            </template>
-            <q-tooltip>
-              {{ termsOfRetire }}년 후에 수익율{{ interest }}%로 월 소비액({{
-                monthlySpend | format10Thousand | perThousand
-              }}만원. ({{ termsOfRetire }}년 인플레 포함 =
-              {{ monthlySpend * Math.pow(1 + interest, termsOfRetire) }}만원)을
-              평생~ 쓸 수 있는 낙원을 이룰수 있는 금액입니다.
-            </q-tooltip>
-          </q-field>
-        </div>
-
-        <div class="col-6 col-md-4">
-          <q-field
-            label="낙원까지 남은금액"
-            :bg-color="paradiseStateColor()"
-            stack-label
-            hint="[낙원금액 - 은퇴 후 자산]으로 낙원금액과의 차이"
-          >
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">
-                <span v-if="paradiseAmount > 0 && totalAssets > 0">
-                  {{
-                    addNumber(paradiseAmount, -totalAssets)
-                      | formatMultipleUnitFrom10TTo100M
-                      | perThousand
-                  }}
-                </span>
-              </div>
-            </template>
-            <q-tooltip>
-              입력하신 자산과 저축액, 수익율로 산출된 모을수 있는 돈과 낙원
-              금액과의 차이 입니다. (음수는 낙원금액을 초과)
-            </q-tooltip>
-          </q-field>
-        </div>
       </div>
     </div>
 
+    <div class="q-pa-md" v-if="paradiseAmount > 0">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">
+            월
+            {{ monthlySpend | formatMultipleUnitFrom10TTo100M | perThousand }}의
+            낙원자산
+            <span class="text-h4 text-red">
+              {{
+                paradiseAmount | formatMultipleUnitFrom10TTo100M | perThousand
+              }}
+            </span>
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <div>
+            월
+            {{ monthlySpend | formatMultipleUnitFrom10TTo100M | perThousand }}의
+            낙원 상태를 만들기 위해서는 {{ termsOfRetire }}년 동안 자산
+            {{
+              paradiseAmount
+                | formatMultipleUnitFrom10TTo100M
+                | perThousand(true)
+            }}을 모으고, 해당 자산으로 실질 수익율
+            {{ addNumber(interest, -inflation) }}%을 달성 해야 합니다.
+          </div>
+        </q-card-section>
+        <q-card-section v-if="totalAssets > 0">
+          <div>
+            은퇴 후 자산
+            {{ totalAssets | formatMultipleUnitFrom10TTo100M | perThousand }}과
+            <span :class="'text-h6 bg-' + paradiseStateColor()">
+              {{
+                addNumber(paradiseAmount, -totalAssets)
+                  | formatMultipleUnitFrom10TTo100M
+                  | perThousand
+              }}
+            </span>
+            차이가 발생 합니다. (*음수는 초과 달성)
+          </div>
+        </q-card-section>
+      </q-card>
+    </div>
+
     <div class="q-pa-md">
+      <div class="text-6"></div>
       <q-table
         title="낙원 테이블"
         :data="paradise_data"
@@ -636,6 +619,30 @@ export default {
       return paradise;
     },
 
+    /**
+     * assets 값과 수익율 물가상승율을 기준으로 기준 월급액을 확인.
+     */
+    calculateParadiseMonthlySpendByCurrentValue(
+      assets = this.totalAssets,
+      interest = this.interest,
+      inflation = this.inflation,
+      termsOfRetire = this.termsOfRetire
+    ) {
+      return (
+        (assets * ((interest - inflation) / 100)) /
+        Math.pow(1 + inflation / 100, termsOfRetire) /
+        12
+      );
+    },
+
+    calculateParadiseMonthlySpendByFutureValue(
+      assets = this.totalAssets,
+      interest = this.interest,
+      inflation = this.inflation
+    ) {
+      return (assets * ((interest - inflation) / 100)) / 12;
+    },
+
     findNearParadiseValue() {
       var key;
       var found = _.find(this.paradise_data, data => {
@@ -665,9 +672,9 @@ export default {
 
       var stateColors = ["red", "yellow", "green"];
       var rate = (this.paradiseAmount - this.totalAssets) / this.totalAssets;
-      if (rate >= 0.5) {
+      if (rate >= 0.3) {
         return stateColors[0];
-      } else if (rate > -0.5 && rate < 0.5) {
+      } else if (rate > -0.3 && rate < 0.3) {
         return stateColors[1];
       } else {
         return stateColors[2];
@@ -685,6 +692,26 @@ export default {
 
     addNumber(value1, value2) {
       return parseInt(value1 || 0) + parseInt(value2 || 0);
+    },
+
+    monthlySpendValidationMessage() {
+      if (this.monthlySpend && !this.paradiseAmount) {
+        var cols = [];
+        if ((this.interest || 0) === 0) {
+          cols.push("명목 수익율");
+        }
+        if ((this.inflation || 0) === 0) {
+          cols.push("저축 증감율");
+        }
+
+        if ((this.termsOfRetire || 0) === 0) {
+          cols.push("은퇴 시기");
+        }
+
+        return `${cols.join(",")}을(를) 입력해주세요`;
+      }
+
+      return "현재가치 기준";
     }
   }
 };
