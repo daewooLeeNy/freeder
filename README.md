@@ -6,4 +6,16 @@
 
 ### Base on
 
-Quasar App  v1
+Quasar App v1
+
+### Build
+
+quasar build
+
+### deploy
+
+```bash
+npm run deploy
+```
+
+github pages에 빌드 파일 배포
