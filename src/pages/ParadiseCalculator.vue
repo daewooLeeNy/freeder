@@ -210,6 +210,7 @@
               <span v-if="monthlySpend"
                 >{{ monthlySpend | format10Thousand | perThousand }} 만원</span
               >
+              <span v-else></span>
             </template>
           </q-select>
         </div>
@@ -286,7 +287,7 @@
           }}</q-td>
         </template>
 
-        <template v-slot:bottom="scope">
+        <template v-slot:bottom>
           <div>
             ** 월 금액: 현재 가치, 수익율: 실질 수익율,
           </div>
