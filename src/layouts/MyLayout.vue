@@ -5,6 +5,10 @@
         <q-toolbar-title>
           낙원계산기 (feat 경제적자유)
         </q-toolbar-title>
+
+        <q-btn flat round dense>
+          <q-icon name="help_center" />
+        </q-btn>
       </q-toolbar>
     </q-header>
 

@@ -8,9 +8,9 @@
 import Vue from "vue";
 import numeral from "numeral";
 
-Vue.filter("perThousand", value => {
-  var fixed = String(value).indexOf(".") >= 0;
-  var _value;
+const perThousand = (value, fixed) => {
+  fixed = typeof fixed === 'boolean' ? fixed : String(value).indexOf(".") >= 0;
+  let _value;
   if (fixed) {
     _value = numeral(value).format("0,0.00");
   } else {
@@ -18,6 +18,11 @@ Vue.filter("perThousand", value => {
   }
 
   return String(value).replace(/-?\d*(\.\d*)?/, _value);
+};
+
+Vue.filter("perThousand", perThousand);
+Vue.filter("perThousandFloor", (value) => {
+  return perThousand(value, false);
 });
 
 Vue.filter("format10Thousand", value => {
