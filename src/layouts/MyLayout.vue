@@ -6,7 +6,7 @@
           낙원계산기 (feat 경제적자유)
         </q-toolbar-title>
 
-        <q-btn flat round dense>
+        <q-btn flat round dense @click="goQuestion">
           <q-icon name="help_center" />
         </q-btn>
       </q-toolbar>
@@ -23,6 +23,11 @@ export default {
   name: "MyLayout",
   data() {
     return {};
+  },
+  methods: {
+    goQuestion() {
+      window.open('https://dev-daze.tistory.com/1', '_blank');
+    }
   }
 };
 </script>

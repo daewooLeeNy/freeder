@@ -11,7 +11,7 @@
     "build": "quasar build",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0",
-    "deploy": "push-dir --dir=dist/spa --remote=gh-pages --branch=master"
+    "deploy": "cp -R dist/spa/ ../daewooLeeNy.github.io/"
   },
   "dependencies": {
     "@quasar/extras": "^1.10.6",
