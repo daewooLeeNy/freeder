@@ -53,7 +53,7 @@
         <div class="col-6 col-xl-2 input-short-won">
           <q-input
             :value="yearSavingAmount"
-            type="text"
+            type="number"
             label="저축금액(연)"
             stack-label
             :dense="dense"
@@ -70,6 +70,7 @@
         <div class="col-4 input-short-won">
           <q-input
             :value="termsOfRetire"
+            type="number"
             label="은퇴시기"
             stack-label
             :dense="dense"
@@ -83,6 +84,7 @@
         <div class="col-4">
           <q-input
             :value="interest"
+            type="number"
             label="명목 수익율"
             stack-label
             :dense="dense"
@@ -99,6 +101,7 @@
         <div class="col-4">
           <q-input
             :value="inflation"
+            type="number"
             label="저축 증가율"
             stack-label
             :dense="dense"
@@ -148,7 +151,7 @@
           >
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">
-                <span v-if="totalAssets > 0">
+                <span v-if="totalAssets > 0 && foundMonthlySpend > 0">
                   {{ foundMonthlySpend | format10Thousand | perThousandFloor }}
                   만원 /
                   {{ foundInterest }} % (명목:{{
@@ -393,7 +396,7 @@ export default {
       interest: "",
       // 만단위
       yearSavingAmount: "",
-      inflation: 2,
+      inflation: 3,
       termsOfRetire: "",
       dense: false,
       denseOpts: false,
@@ -457,14 +460,14 @@ export default {
         this.initParadaiseDatas();
       }
     },
-    interest() {
-      if(this.isReadyCalculation) {
+    interest(newInterest) {
+      if(this._isReadyCalculation({assets: this.assets, yearSavingAmount: this.yearSavingAmount, interest: newInterest, termsOfRetire: this.termsOfRetire})) {
         this.paradiseAmount = this.calculateParadiseAmount();
         this.initParadaiseDatas();
       }
     },
-    termsOfRetire() {
-      if(this.isReadyCalculation) {
+    termsOfRetire(newTermsOfRetire) {
+      if(this._isReadyCalculation({assets: this.assets, yearSavingAmount: this.yearSavingAmount, interest: this.interest, termsOfRetire: newTermsOfRetire})) {
         this.paradiseAmount = this.calculateParadiseAmount();
         this.initParadaiseDatas();
       }
@@ -472,37 +475,39 @@ export default {
   },
   computed: {
     isReadyCalculation() {
-      return (this.assets > 0 || this.yearSavingAmount) && this.inflation > 0 && this.interest > 0 && this.termsOfRetire > 0;
+      return this._isReadyCalculation({assets: this.assets, yearSavingAmount: this.yearSavingAmount, interest: this.interest, termsOfRetire: this.termsOfRetire});
     },
     totalAssets() {
-      if (this.interest <= 0) {
+      if ((this.assets <= 0 && this.yearSavingAmount <= 0) || this.termsOfRetire <= 0) {
         return "";
       }
 
-      if (this.assets <= 0 && this.yearSavingAmount <= 0) {
-        return "";
+      let assets = numeral(this.assets || 0)
+        .multiply(10000)
+        .value();
+      let yearSavingAmount = numeral(this.yearSavingAmount || 0)
+        .multiply(10000)
+        .value();
+      let interest = numeral(this.interest || 0).value();
+      let termsOfRetire = numeral(this.termsOfRetire || 0).value();
+
+      let inflation = numeral(this.inflation || 0).value();
+
+      let calAssets = assets * Math.pow(1 + interest / 100, termsOfRetire);
+
+      // let actualInterest = this.addNumber(interest, -inflation) / 100;
+      let actualInterest = (interest - inflation) / 100;
+      if(actualInterest === 0) {
+        actualInterest = 1;
       }
 
-      var assets = numeral(this.assets || 0)
-        .multiply(10000)
-        .value();
-      var yearSavingAmount = numeral(this.yearSavingAmount || 0)
-        .multiply(10000)
-        .value();
-      var interest = numeral(this.interest || 0).value();
-      var termsOfRetire = numeral(this.termsOfRetire || 0).value();
+      let actualInterstPow = Math.pow(1 + interest / 100, termsOfRetire) -
+            Math.pow(1 + inflation / 100, termsOfRetire);
 
-      var inflation = numeral(this.inflation || 0).value();
-
-      var calAssets =
-        numeral(assets).value() * Math.pow(1 + interest / 100, termsOfRetire);
+      const calYearSavingAmount = yearSavingAmount * actualInterstPow / actualInterest;
 
       const totalAssets = (
-        calAssets +
-        (yearSavingAmount *
-          (Math.pow(1 + interest / 100, termsOfRetire) -
-            Math.pow(1 + inflation / 100, termsOfRetire))) /
-          ((interest - inflation) / 100)
+        calAssets + calYearSavingAmount
       ).toFixed(2);
 
       this.sendGATotalAssets(totalAssets);
@@ -510,6 +515,9 @@ export default {
     }
   },
   methods: {
+    _isReadyCalculation({assets, yearSavingAmount, interest, termsOfRetire}) {
+      return (numeral(assets).value() > 0 || numeral(yearSavingAmount).value() > 0) && numeral(interest).value() > 0 && numeral(termsOfRetire).value() > 0;
+    },
     initParadaiseDatas: _.debounce(function() {
       this.paradise_data.splice(0, this.paradise_data.length);
       this.paradise_data.push(...this.calculateParadiseDatas());
@@ -766,7 +774,7 @@ export default {
       inflation = this.inflation,
       terms = this.termsOfRetire
     ) {
-      if (interest <= 0 || inflation <= 0) {
+      if (interest <= 0) {
         return undefined;
       }
 
