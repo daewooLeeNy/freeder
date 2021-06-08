@@ -53,7 +53,6 @@
         <div class="col-6 col-xl-2 input-short-won">
           <q-input
             :value="yearSavingAmount"
-            type="number"
             label="저축금액(연)"
             stack-label
             :dense="dense"
@@ -70,7 +69,6 @@
         <div class="col-4 input-short-won">
           <q-input
             :value="termsOfRetire"
-            type="number"
             label="은퇴시기"
             stack-label
             :dense="dense"
@@ -84,7 +82,6 @@
         <div class="col-4">
           <q-input
             :value="interest"
-            type="number"
             label="명목 수익율"
             stack-label
             :dense="dense"
@@ -101,7 +98,6 @@
         <div class="col-4">
           <q-input
             :value="inflation"
-            type="number"
             label="저축 증가율"
             stack-label
             :dense="dense"
@@ -531,8 +527,9 @@ export default {
     },
 
     changeYearSavingAmount(value) {
-      this.yearSavingAmount = this.formatNumber(value)
-      this.sendGAYearSavingAmount(value);
+      // this.yearSavingAmount = this.formatNumber(value)
+      this.yearSavingAmount = numeral(value).format("0,0");
+      // this.sendGAYearSavingAmount(value);
     },
 
     changeInterest(value) {
