@@ -9,7 +9,7 @@ import Vue from "vue";
 import numeral from "numeral";
 
 const perThousand = (value, fixed) => {
-  fixed = typeof fixed === 'boolean' ? fixed : String(value).indexOf(".") >= 0;
+  fixed = typeof fixed === "boolean" ? fixed : String(value).indexOf(".") >= 0;
   let _value;
   if (fixed) {
     _value = numeral(value).format("0,0.00");
@@ -21,7 +21,7 @@ const perThousand = (value, fixed) => {
 };
 
 Vue.filter("perThousand", perThousand);
-Vue.filter("perThousandFloor", (value) => {
+Vue.filter("perThousandFloor", value => {
   return perThousand(value, false);
 });
 

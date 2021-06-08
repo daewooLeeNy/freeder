@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     goQuestion() {
-      window.open('https://dev-daze.tistory.com/1', '_blank');
+      window.open("https://dev-daze.tistory.com/1", "_blank");
     }
   }
 };

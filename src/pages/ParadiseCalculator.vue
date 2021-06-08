@@ -441,29 +441,43 @@ export default {
       }
     },
     assets() {
-      if(this.isReadyCalculation) {
+      if (this.isReadyCalculation) {
         this.initParadaiseDatas();
       }
     },
     yearSavingAmount() {
-      if(this.isReadyCalculation) {
+      if (this.isReadyCalculation) {
         this.initParadaiseDatas();
       }
     },
     inflation() {
-      if(this.isReadyCalculation) {
+      if (this.isReadyCalculation) {
         this.paradiseAmount = this.calculateParadiseAmount();
         this.initParadaiseDatas();
       }
     },
     interest(newInterest) {
-      if(this._isReadyCalculation({assets: this.assets, yearSavingAmount: this.yearSavingAmount, interest: newInterest, termsOfRetire: this.termsOfRetire})) {
+      if (
+        this._isReadyCalculation({
+          assets: this.assets,
+          yearSavingAmount: this.yearSavingAmount,
+          interest: newInterest,
+          termsOfRetire: this.termsOfRetire
+        })
+      ) {
         this.paradiseAmount = this.calculateParadiseAmount();
         this.initParadaiseDatas();
       }
     },
     termsOfRetire(newTermsOfRetire) {
-      if(this._isReadyCalculation({assets: this.assets, yearSavingAmount: this.yearSavingAmount, interest: this.interest, termsOfRetire: newTermsOfRetire})) {
+      if (
+        this._isReadyCalculation({
+          assets: this.assets,
+          yearSavingAmount: this.yearSavingAmount,
+          interest: this.interest,
+          termsOfRetire: newTermsOfRetire
+        })
+      ) {
         this.paradiseAmount = this.calculateParadiseAmount();
         this.initParadaiseDatas();
       }
@@ -471,10 +485,18 @@ export default {
   },
   computed: {
     isReadyCalculation() {
-      return this._isReadyCalculation({assets: this.assets, yearSavingAmount: this.yearSavingAmount, interest: this.interest, termsOfRetire: this.termsOfRetire});
+      return this._isReadyCalculation({
+        assets: this.assets,
+        yearSavingAmount: this.yearSavingAmount,
+        interest: this.interest,
+        termsOfRetire: this.termsOfRetire
+      });
     },
     totalAssets() {
-      if ((this.assets <= 0 && this.yearSavingAmount <= 0) || this.termsOfRetire <= 0) {
+      if (
+        (this.assets <= 0 && this.yearSavingAmount <= 0) ||
+        this.termsOfRetire <= 0
+      ) {
         return "";
       }
 
@@ -493,26 +515,31 @@ export default {
 
       // let actualInterest = this.addNumber(interest, -inflation) / 100;
       let actualInterest = (interest - inflation) / 100;
-      if(actualInterest === 0) {
+      if (actualInterest === 0) {
         actualInterest = 1;
       }
 
-      let actualInterstPow = Math.pow(1 + interest / 100, termsOfRetire) -
-            Math.pow(1 + inflation / 100, termsOfRetire);
+      let actualInterstPow =
+        Math.pow(1 + interest / 100, termsOfRetire) -
+        Math.pow(1 + inflation / 100, termsOfRetire);
 
-      const calYearSavingAmount = yearSavingAmount * actualInterstPow / actualInterest;
+      const calYearSavingAmount =
+        (yearSavingAmount * actualInterstPow) / actualInterest;
 
-      const totalAssets = (
-        calAssets + calYearSavingAmount
-      ).toFixed(2);
+      const totalAssets = (calAssets + calYearSavingAmount).toFixed(2);
 
       this.sendGATotalAssets(totalAssets);
       return totalAssets;
     }
   },
   methods: {
-    _isReadyCalculation({assets, yearSavingAmount, interest, termsOfRetire}) {
-      return (numeral(assets).value() > 0 || numeral(yearSavingAmount).value() > 0) && numeral(interest).value() > 0 && numeral(termsOfRetire).value() > 0;
+    _isReadyCalculation({ assets, yearSavingAmount, interest, termsOfRetire }) {
+      return (
+        (numeral(assets).value() > 0 ||
+          numeral(yearSavingAmount).value() > 0) &&
+        numeral(interest).value() > 0 &&
+        numeral(termsOfRetire).value() > 0
+      );
     },
     initParadaiseDatas: _.debounce(function() {
       this.paradise_data.splice(0, this.paradise_data.length);
@@ -533,17 +560,17 @@ export default {
     },
 
     changeInterest(value) {
-      this.interest = this.formatNumber(value)
+      this.interest = this.formatNumber(value);
       this.sendGAInterest(value);
     },
 
     changeInflation(value) {
-      this.inflation = this.formatNumber(value)
+      this.inflation = this.formatNumber(value);
       this.sendGAInflation(value);
     },
 
     changeTermsOfRetire(value) {
-      this.termsOfRetire = this.formatNumber(value)
+      this.termsOfRetire = this.formatNumber(value);
       this.sendGATermsOfRetire(value);
     },
 
@@ -551,53 +578,53 @@ export default {
       this.monthlySpend = value;
       this.sendGAMonthlySpend(value);
     },
-    
+
     sendGAInputAssets: _.debounce(function(value) {
-      window.gtag('event', 'input', {
-        event_category: '자산',
-        event_label: value ? value.replace(/,/g, '') : value
+      window.gtag("event", "input", {
+        event_category: "자산",
+        event_label: value ? value.replace(/,/g, "") : value
       });
     }, 5000),
 
     sendGAYearSavingAmount: _.debounce(function(value) {
-      window.gtag('event', 'input', {
-        event_category: '연저축',
+      window.gtag("event", "input", {
+        event_category: "연저축",
         event_label: value
       });
     }, 5000),
 
     sendGAInterest: _.debounce(function(value) {
-      window.gtag('event', 'input', {
-        event_category: '수익율',
+      window.gtag("event", "input", {
+        event_category: "수익율",
         event_label: value
       });
     }, 5000),
 
     sendGAInflation: _.debounce(function(value) {
-      window.gtag('event', 'input', {
-        event_category: '인플레이션',
+      window.gtag("event", "input", {
+        event_category: "인플레이션",
         event_label: value
       });
     }, 5000),
 
     sendGATermsOfRetire: _.debounce(function(value) {
-      window.gtag('event', 'input', {
-        event_category: '기간',
+      window.gtag("event", "input", {
+        event_category: "기간",
         event_label: value
       });
     }, 5000),
 
     sendGAMonthlySpend: _.debounce(function(value) {
-      window.gtag('event', 'select', {
-        event_category: '월소비금액',
+      window.gtag("event", "select", {
+        event_category: "월소비금액",
         event_label: value
       });
     }, 2000),
 
     sendGATotalAssets: _.debounce(function(value) {
       let amountByUnit = this.amountClassfication(value, 100000000);
-      window.gtag('event', 'calculate', {
-        event_category: '은퇴 총자산',
+      window.gtag("event", "calculate", {
+        event_category: "은퇴 총자산",
         event_label: amountByUnit ? `${amountByUnit} 억` : amountByUnit
       });
     }, 2000),
@@ -605,21 +632,21 @@ export default {
     sendGACalculatedMonthlySpend: _.debounce(function(value) {
       let amountByUnit = this.amountClassfication(value, 1000000);
 
-      window.gtag('event', 'calculate', {
-        event_category: '은퇴 월소비',
+      window.gtag("event", "calculate", {
+        event_category: "은퇴 월소비",
         event_label: amountByUnit ? `${amountByUnit} 백만` : amountByUnit
       });
     }, 2000),
 
     amountClassfication(value, unit) {
-      if(isNaN(value)) {
+      if (isNaN(value)) {
         return value;
-      } 
+      }
 
       let amountByUnit = (value / unit).toFixed(1);
-      if(amountByUnit > 10 && amountByUnit < 100) {
+      if (amountByUnit > 10 && amountByUnit < 100) {
         amountByUnit = Math.floor(amountByUnit / 5) * 5;
-      } else if(amountByUnit > 100) {
+      } else if (amountByUnit > 100) {
         amountByUnit = Math.floor(amountByUnit / 100) * 100;
       }
 
@@ -666,7 +693,7 @@ export default {
 
       var inflation = numeral(this.inflation).value();
 
-       const totalAssets = (
+      const totalAssets = (
         numeral(assets).value() * Math.pow(1 + interest / 100, termsOfRetire) +
         (yearSavingAmount *
           (Math.pow(1 + interest / 100, termsOfRetire) -
@@ -761,7 +788,8 @@ export default {
 
       var _interest = interest / 100;
       var _inflation = inflation / 100;
-      var paradise = (amount * 12 * Math.pow(1 + _inflation, terms)) / _interest;
+      var paradise =
+        (amount * 12 * Math.pow(1 + _inflation, terms)) / _interest;
       return paradise;
     },
 
@@ -777,13 +805,16 @@ export default {
 
       var _interest = interest / 100;
       var _inflation = inflation / 100;
-      var paradise = (totalAsset / Math.pow(1 + _inflation, terms)) * _interest / 12;
+      var paradise =
+        ((totalAsset / Math.pow(1 + _inflation, terms)) * _interest) / 12;
       return paradise;
     },
 
     findNearParadiseValue() {
       const actualInterest = this.addNumber(this.interest, -this.inflation);
-      this.foundMonthlySpend = Math.floor(this.calculateParadiseMonthlyIncome(this.totalAssets));
+      this.foundMonthlySpend = Math.floor(
+        this.calculateParadiseMonthlyIncome(this.totalAssets)
+      );
       this.foundInterest = actualInterest;
 
       this.sendGACalculatedMonthlySpend(this.foundMonthlySpend);
