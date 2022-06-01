@@ -9,25 +9,34 @@
         목표치를 정해보세요.
       </p>
 
-      <q-btn
-        label="예: 현재 자산2억, 연1200만원 저축, 연10% 수익율 그리고 10년후 은퇴"
-        class="tag"
-        @click="showExample"
-      ></q-btn>
-      <br>
+      <div class="q-gutter-sm">
+        <q-btn
+          label="예: 현재 자산2억, 연1200만원 저축, 연10% 수익율 그리고 10년후 은퇴"
+          class="tag"
+          @click="showExample"
+        ></q-btn>
 
-      <q-btn
-        label="#자산1억 10% 10년"
-        class="tag"
-        @click="useFavorite1"
-      ></q-btn>
+        <q-btn
+          label="#자산1억 10% 10년"
+          class="tag"
+          @click="useFavorite1"
+        ></q-btn>
 
-      <q-btn
-        label="#자산1억 10년 10억 목표"
-        class="tag"
-        @click="useFavorite2"
-      ></q-btn>
+        <q-btn
+          label="#자산1억 10년 10억 목표"
+          class="tag"
+          @click="useFavorite2"
+        ></q-btn>
+      </div>
 
+      <div class="q-gutter-sm" style="margin-top:5px;">
+        <q-btn
+          color="primary"
+          label="낙원 설문 참여하기 😘"
+          icon-right="open_in_new"
+          @click="moveSurvey()"
+        ></q-btn>
+      </div>
 
       <div class="row q-col-gutter-xs">
         <div class="col-6 col-xl-2 input-short-won">
@@ -296,6 +305,44 @@
         <img src="statics/sample.png" />
       </q-card>
     </q-dialog>
+
+    
+    <q-dialog v-model="survey" :maximized="false" >
+      <q-card >
+        <q-card-section>
+          <div style="display:flex;justify-content:center;margin:10px 0 20px 0;">
+            <img src="statics/please-icon.svg"/>
+          </div>
+
+          <div class="text-h6" style="text-align:center;font-size:20px;line-height:26px;">
+            앗, 잠시만 시간을 <br>
+            내어주실 수 있으실까요?
+          </div>
+          <br>
+          <div style="text-align:center;font-size:14px;min-width:300px;line-height:22px;color:#6f6f6f">
+            낙원팀에서 여러분들의 경제적 자유를 지원하고 <br>
+            조금 더 나은 재테크 정보를 알려드리고자 <br>
+            작은 설문을 준비했습니다. <br>
+            바쁘시겠지만 조금 더 발전된 모습을 <br>
+            보여드릴 수 있도록 의견 부탁드릴게요.
+          </div>
+        </q-card-section>
+
+          <q-btn-group spread>
+            <q-btn flat size="xl" v-close-popup style="background-color:#989ea4;color:#fff;font-size:16px;padding:10px 16px">다음에 할게요..</q-btn>
+            <q-btn
+              color="primary"
+              size="xl" 
+              @click="
+                survey = false;
+                moveSurvey();
+              "
+              style="font-size:16px;padding:10px 16px"
+              >지금 참여하기</q-btn
+            >
+          </q-btn-group>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -347,6 +394,8 @@ export default {
       foundInterest: '',
       // sample popup flag
       sample: false,
+      survey: false,
+      wasShownSurvey: false,
       maximized: false
     };
   },
@@ -460,6 +509,7 @@ export default {
       this.findNearParadiseValue();
       this.sendGATotalAsset(totalAsset);
       this.sendGAInputs(inputs);
+      this.showSurveyPopupWhenCalculated();
     }, 0),
 
     changeAssets(value) {
@@ -733,6 +783,17 @@ export default {
         event_category: 'tag',
         event_label: JSON.stringify({tag: tabName, asset, yearSavingAmount, interest, inflation, periodOfRetire, monthlySpend})
       });
+    },
+    showSurveyPopupWhenCalculated() {
+      if(this.totalAsset && this.foundMonthlySpend  && !this.wasShownSurvey) {
+        setTimeout(() => {
+          this.survey = true;
+          this.wasShownSurvey = true;
+        }, 1000);
+      }
+    },
+    moveSurvey() {
+      window.open("https://docs.google.com/forms/d/e/1FAIpQLScXpdPppmhHJczWZh_nVGnu6GTqGtgrFmpwKRi61uOCWe87xQ/viewform", "popup");
     }
   }
 };
