@@ -352,7 +352,7 @@
       </q-card>
     </div>
 
-    <q-dialog v-model="sample" :maximized="false">
+    <q-dialog v-model="sample" :maximized="false" >
       <q-card>
         <q-card-section>
           <div class="text-h8 text-red">
@@ -378,7 +378,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="survey" :maximized="false" >
+    <q-dialog v-model="survey" :maximized="false" persistent>
       <q-card >
         <q-card-section>
           <div style="display:flex;justify-content:center;margin:10px 0 20px 0;">
