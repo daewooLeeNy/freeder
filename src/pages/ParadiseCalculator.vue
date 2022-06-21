@@ -1,19 +1,35 @@
 <template>
   <q-page>
-    <div class="q-pa-md">
-      <q-card bordered class="bg-secondary text-white">
-        <q-card-section>
-          <div class="text-h6">낙원이란?</div>
+    <div class="q-pa-md banner-container">
+      <q-carousel
+        swipeable
+        animated
+        v-model="slide"
+        infinite
+        :style="slideStyle"
+      >
+          <q-carousel-slide :name="1" :draggable="false">
+            <div class="banner">
+              <img src="~assets/img_banner/img_banner2.png" @load="bannerLoaded"/>
+            </div>
+          </q-carousel-slide>
+          <q-carousel-slide :name="2" :draggable="false">
+            <div class="banner">
+              <img src="~assets/img_banner/img_banner1.png"/>
+            </div>
+          </q-carousel-slide>
 
-          <div class="text-subtitle2">
-            일하지 않고도 원하는 생활을 할 수 있는 재정 상태를 말합니다.
-            <br />예를들어, 원하는 생활 수준(월 500만원)을 하기 위한 생활비가
-            자본소득으로 획득이 가능 할때(월 500만원)이 들어온다면
-            낙원(Paradise) 상태 입니다. (혹은 경제적자유 상태)
-            <br />
-          </div>
-        </q-card-section>
-      </q-card>
+          <template v-slot:control>
+            <q-carousel-control
+              position="top-right"
+              :offset="[18, 18]"
+              style="margin:0;padding:5px"
+            >
+              <div class="Rectangle"> <span class="pagination_current"> {{slide}} </span> <span class="pagination_total">/  2 </span> </div>
+
+            </q-carousel-control>
+          </template>
+      </q-carousel>
     </div>
 
     <div class="q-pa-md">
@@ -33,13 +49,6 @@
           icon-right="open_in_new"
           style="border:1px solid #027be3;"
           @click="showExample"
-        ></q-btn>
-
-        <q-btn
-          color="primary"
-          label="낙원 설문 참여하기 😘"
-          icon-right="open_in_new"
-          @click="moveSurvey()"
         ></q-btn>
       </div>
 
@@ -377,43 +386,6 @@
         <img src="statics/sample.png" />
       </q-card>
     </q-dialog>
-
-    <q-dialog v-model="survey" :maximized="false" persistent>
-      <q-card >
-        <q-card-section>
-          <div style="display:flex;justify-content:center;margin:10px 0 20px 0;">
-            <img src="statics/please-icon.svg"/>
-          </div>
-
-          <div class="text-h6" style="text-align:center;font-size:20px;line-height:26px;">
-            앗, 잠시만 시간을 <br>
-            내어주실 수 있으실까요?
-          </div>
-          <br>
-          <div style="text-align:center;font-size:14px;min-width:300px;line-height:22px;color:#6f6f6f">
-            낙원팀에서 여러분들의 경제적 자유를 지원하고 <br>
-            조금 더 나은 재테크 정보를 알려드리고자 <br>
-            작은 설문을 준비했습니다. <br>
-            바쁘시겠지만 조금 더 발전된 모습을 <br>
-            보여드릴 수 있도록 의견 부탁드릴게요.
-          </div>
-        </q-card-section>
-
-          <q-btn-group spread>
-            <q-btn flat size="xl" v-close-popup style="background-color:#989ea4;color:#fff;font-size:16px;padding:10px 16px">다음에 할게요..</q-btn>
-            <q-btn
-              color="primary"
-              size="xl" 
-              @click="
-                survey = false;
-                moveSurvey();
-              "
-              style="font-size:16px;padding:10px 16px"
-              >지금 참여하기</q-btn
-            >
-          </q-btn-group>
-      </q-card>
-    </q-dialog>
   </q-page>
 </template>
 
@@ -461,9 +433,9 @@ export default {
       foundInterest: "",
       // sample popup flag
       sample: false,
-      survey: false,
-      wasShownSurvey: false,
-      maximized: false
+      maximized: false,
+      slide: 1,
+      slideStyle: 'height:initial'
     };
   },
   mounted() {
@@ -598,7 +570,6 @@ export default {
       this.paradise_data.splice(0, this.paradise_data.length);
       this.paradise_data.push(...this.calculateParadiseDatas());
       this.findNearParadiseValue();
-      this.showSurveyPopupWhenCalculated();
     }, 0),
 
     changeAssets(value) {
@@ -917,18 +888,79 @@ export default {
       this.sample = true;
       this.maximized = this.$q.screen.gt.md ? false : true;
     },
-    showSurveyPopupWhenCalculated() {
-      if(this.totalAssets && this.foundMonthlySpend && !this.wasShownSurvey) {
-        setTimeout(() => {
-          this.survey = true;
-          this.wasShownSurvey = true;
-        }, 1000);
-      }
-    },
-    moveSurvey() {
-      this.wasShownSurvey = true;
-      window.open("https://docs.google.com/forms/d/e/1FAIpQLScXpdPppmhHJczWZh_nVGnu6GTqGtgrFmpwKRi61uOCWe87xQ/viewform", "popup");
+    bannerLoaded($el) {
+      this.slideStyle = `height:${$el.currentTarget.height}px`;
     }
   }
 };
 </script>
+
+<style>
+.scroll {
+  overflow:hidden
+}
+</style>
+
+<style scoped>
+.q-carousel__slide { 
+  padding: initial;
+}
+
+.banner-container {
+  padding-bottom: 0px;
+}
+
+.banner > img {
+  width: 100%;
+  pointer-events: none;
+  user-drag: none; 
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+
+}
+
+.Rectangle {
+  width: 45px;
+  padding: 0 0 0 11px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.pagination_total  {
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  opacity: 0.5;
+  font-size: 11px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #fff;
+}
+
+.pagination_current {
+  opacity: 1;
+  width: 6px;
+  height: 13px;
+  margin: 0 0 0 0;
+  font-size: 11px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #fff;
+}
+
+@media (min-width: 620px) {
+  .banner {
+    max-width:620px;
+  }
+}
+</style>
