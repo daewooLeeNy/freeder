@@ -6,6 +6,7 @@
         animated
         v-model="slide"
         infinite
+        style="max-width:620px;"
         :style="slideStyle"
       >
           <q-carousel-slide :name="1" :draggable="false" class="fit">
@@ -817,7 +818,7 @@ export default {
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-
+  border-radius: 9px;
 }
 
 
