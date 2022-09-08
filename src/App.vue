@@ -20,6 +20,9 @@ const perThousand = (value, fixed) => {
   return String(value).replace(/-?\d*(\.\d*)?/, _value);
 };
 
+import VueSessionStorage from "vue-sessionstorage";
+Vue.use(VueSessionStorage);
+
 Vue.filter("perThousand", perThousand);
 Vue.filter("perThousandFloor", value => {
   return perThousand(value, false);

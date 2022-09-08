@@ -23,11 +23,14 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.10.6",
+    "axios": "^0.27.2",
     "chart.js": "^3.3.2",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "quasar": "^1.15.19",
-    "swiper": "^8.2.4"
+    "swiper": "^8.2.4",
+    "uuid": "^8.3.2",
+    "vue-sessionstorage": "^1.0.0"
   },
   "devDependencies": {
     "@quasar/app": "^1.9.6",

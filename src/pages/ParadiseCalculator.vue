@@ -9,27 +9,32 @@
         style="max-width:620px;"
         :style="slideStyle"
       >
-          <q-carousel-slide :name="1" :draggable="false">
-            <div class="banner">
-              <img src="~assets/img_banner/img_banner2.png" @load="bannerLoaded"/>
-            </div>
-          </q-carousel-slide>
-          <q-carousel-slide :name="2" :draggable="false">
-            <div class="banner">
-              <img src="~assets/img_banner/img_banner1.png"/>
-            </div>
-          </q-carousel-slide>
+        <q-carousel-slide :name="1" :draggable="false">
+          <div class="banner">
+            <img
+              src="~assets/img_banner/img_banner2.png"
+              @load="bannerLoaded"
+            />
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="2" :draggable="false">
+          <div class="banner">
+            <img src="~assets/img_banner/img_banner1.png" />
+          </div>
+        </q-carousel-slide>
 
-          <template v-slot:control>
-            <q-carousel-control
-              position="top-right"
-              :offset="[18, 18]"
-              style="margin:0;padding:5px"
-            >
-              <div class="Rectangle"> <span class="pagination_current"> {{slide}} </span> <span class="pagination_total">/  2 </span> </div>
-
-            </q-carousel-control>
-          </template>
+        <template v-slot:control>
+          <q-carousel-control
+            position="top-right"
+            :offset="[18, 18]"
+            style="margin:0;padding:5px"
+          >
+            <div class="Rectangle">
+              <span class="pagination_current"> {{ slide }} </span>
+              <span class="pagination_total">/ 2 </span>
+            </div>
+          </q-carousel-control>
+        </template>
       </q-carousel>
     </div>
 
@@ -362,7 +367,7 @@
       </q-card>
     </div>
 
-    <q-dialog v-model="sample" :maximized="false" >
+    <q-dialog v-model="sample" :maximized="false">
       <q-card>
         <q-card-section>
           <div class="text-h8 text-red">
@@ -399,11 +404,16 @@
 <script>
 import numeral from "numeral";
 import _ from "lodash";
+import { saveCalculatedResult, updateTargetAsset } from "../components/api";
+import userMixin from "../components/user";
 
 export default {
   name: "ParadiseCalculatorMain",
+  mixins: [userMixin],
   data() {
     return {
+      userUuid: "",
+      resultId: 0,
       // 만단위
       assets: "",
       // 이자
@@ -436,13 +446,13 @@ export default {
       sample: false,
       maximized: false,
       slide: 1,
-      slideStyle: 'height:initial'
+      slideStyle: "height:initial"
     };
   },
   mounted() {
     numeral.nullFormat("");
-
-    window.gtag('event', 'page_view', {
+    this.userUuid = this.getUserUuid();
+    window.gtag("event", "page_view", {
       page_title: this.$route.name,
       page_location: this.$route.name,
       page_path: this.$route.path
@@ -468,16 +478,19 @@ export default {
     },
     assets() {
       if (this.isReadyCalculation) {
+        this.resultId = 0;
         this.initParadaiseDatas();
       }
     },
     yearSavingAmount() {
       if (this.isReadyCalculation) {
+        this.resultId = 0;
         this.initParadaiseDatas();
       }
     },
     inflation() {
       if (this.isReadyCalculation) {
+        this.resultId = 0;
         this.paradiseAmount = this.calculateParadiseAmount();
         this.initParadaiseDatas();
       }
@@ -491,6 +504,7 @@ export default {
           termsOfRetire: this.termsOfRetire
         })
       ) {
+        this.resultId = 0;
         this.paradiseAmount = this.calculateParadiseAmount();
         this.initParadaiseDatas();
       }
@@ -504,6 +518,7 @@ export default {
           termsOfRetire: newTermsOfRetire
         })
       ) {
+        this.resultId = 0;
         this.paradiseAmount = this.calculateParadiseAmount();
         this.initParadaiseDatas();
       }
@@ -555,6 +570,7 @@ export default {
       const totalAssets = (calAssets + calYearSavingAmount).toFixed(2);
 
       this.sendGATotalAssets(totalAssets);
+      this.sendResult();
       return totalAssets;
     }
   },
@@ -602,6 +618,7 @@ export default {
 
     changeMonthlySpend(value) {
       this.monthlySpend = value;
+      this.sendResult();
       this.sendGAMonthlySpend(value);
     },
 
@@ -727,6 +744,7 @@ export default {
           ((interest - inflation) / 100)
       ).toFixed(2);
 
+      console.log(1234);
       return totalAssets;
     }, 100),
 
@@ -881,9 +899,9 @@ export default {
     },
 
     showExample() {
-      window.gtag('event', 'popup', {
-        event_category: '예제',
-        event_label: 'basic'
+      window.gtag("event", "popup", {
+        event_category: "예제",
+        event_label: "basic"
       });
 
       this.sample = true;
@@ -891,6 +909,35 @@ export default {
     },
     bannerLoaded($el) {
       this.slideStyle = `height:${$el.currentTarget.height}px`;
+    },
+    sendResult: _.debounce(async function() {
+      if (!this.isReadyCalculation) {
+        return;
+      }
+
+      if (this.resultId && this.monthlySpend) {
+        this.updateTarget();
+      } else {
+        const data = await saveCalculatedResult({
+          userUuid: this.userUuid,
+          assets: this.assets,
+          yearSavingAmount: this.yearSavingAmount,
+          termsOfRetire: this.termsOfRetire,
+          interest: this.interest,
+          inflation: this.inflation,
+          totalAssets: this.totalAssets,
+          paradiseAmount: this.paradiseAmount
+        });
+
+        this.resultId = data.id;
+      }
+    }, 2000),
+    updateTarget() {
+      updateTargetAsset({
+        userUuid: this.userUuid,
+        resultId: this.resultId,
+        paradiseAmount: this.paradiseAmount
+      });
     }
   }
 };
@@ -898,12 +945,12 @@ export default {
 
 <style>
 .scroll {
-  overflow:hidden
+  overflow: hidden;
 }
 </style>
 
 <style scoped>
-.q-carousel__slide { 
+.q-carousel__slide {
   padding: initial;
 }
 
@@ -914,13 +961,13 @@ export default {
 .banner > img {
   width: 100%;
   pointer-events: none;
-  user-drag: none; 
+  user-drag: none;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-drag: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-  border-radius:9px;
+  border-radius: 9px;
 }
 
 .Rectangle {
@@ -930,7 +977,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.pagination_total  {
+.pagination_total {
   width: 13px;
   height: 13px;
   margin: 0;
@@ -961,7 +1008,7 @@ export default {
 
 @media (min-width: 620px) {
   .banner {
-    max-width:620px;
+    max-width: 620px;
   }
 }
 </style>

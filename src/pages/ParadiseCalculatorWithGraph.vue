@@ -9,27 +9,32 @@
         style="max-width:620px;"
         :style="slideStyle"
       >
-          <q-carousel-slide :name="1" :draggable="false" class="fit">
-            <div class="banner">
-              <img src="~assets/img_banner/img_banner2.png" @load="bannerLoaded"/>
-            </div>
-          </q-carousel-slide>
-          <q-carousel-slide :name="2" :draggable="false"  class="fit">
-            <div class="banner">
-              <img src="~assets/img_banner/img_banner1.png"/>
-            </div>
-          </q-carousel-slide>
+        <q-carousel-slide :name="1" :draggable="false" class="fit">
+          <div class="banner">
+            <img
+              src="~assets/img_banner/img_banner2.png"
+              @load="bannerLoaded"
+            />
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="2" :draggable="false" class="fit">
+          <div class="banner">
+            <img src="~assets/img_banner/img_banner1.png" />
+          </div>
+        </q-carousel-slide>
 
-          <template v-slot:control>
-            <q-carousel-control
-              position="top-right"
-              :offset="[18, 18]"
-              style="margin:0;padding:5px"
-            >
-              <div class="Rectangle"> <span class="pagination_current"> {{slide}} </span> <span class="pagination_total">/  2 </span> </div>
-
-            </q-carousel-control>
-          </template>
+        <template v-slot:control>
+          <q-carousel-control
+            position="top-right"
+            :offset="[18, 18]"
+            style="margin:0;padding:5px"
+          >
+            <div class="Rectangle">
+              <span class="pagination_current"> {{ slide }} </span>
+              <span class="pagination_total">/ 2 </span>
+            </div>
+          </q-carousel-control>
+        </template>
       </q-carousel>
     </div>
 
@@ -59,15 +64,6 @@
           label="#자산1억 10년 10억 목표"
           class="tag"
           @click="useFavorite2"
-        ></q-btn>
-      </div>
-
-      <div class="q-gutter-sm" style="margin-top:5px;">
-        <q-btn
-          color="primary"
-          label="낙원 설문 참여하기 😘"
-          icon-right="open_in_new"
-          @click="moveSurvey()"
         ></q-btn>
       </div>
 
@@ -186,7 +182,9 @@
                 <span v-if="totalAsset > 0 && foundMonthlySpend > 0">
                   {{ foundMonthlySpend | format10Thousand | perThousandFloor }}
                   만원 /
-                  {{ (foundInterest * 100).toFixed(0)}} % (명목:{{interest}}%)
+                  {{ (foundInterest * 100).toFixed(0) }} % (명목:{{
+                    interest
+                  }}%)
                 </span>
               </div>
             </template>
@@ -326,19 +324,13 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn
-            flat
-            color="primary"
-            @click="useExample1"
-            >사용하기</q-btn
-          >
+          <q-btn flat color="primary" @click="useExample1">사용하기</q-btn>
           <q-btn color="primary" v-close-popup>닫기</q-btn>
         </q-card-actions>
         <!-- <q-img src="statics/sample.png" height="70%" /> -->
         <img src="statics/sample.png" />
       </q-card>
     </q-dialog>
-
   </q-page>
 </template>
 
@@ -349,67 +341,75 @@
 </style>
 
 <script>
-import numeral from 'numeral';
-import _ from 'lodash';
-import { calculateTotalAsset } from '../components/Calculator';
-import AssetBarChart from './AssetBarChart.vue';
+import numeral from "numeral";
+import _ from "lodash";
+import { calculateTotalAsset } from "../components/Calculator";
+import AssetBarChart from "./AssetBarChart.vue";
+import { saveCalculatedResult, updateTargetAsset } from "../components/api";
+import userMixin from "../components/user";
 
 export default {
-  name: 'ParadiseCalculatorMain',
+  name: "ParadiseCalculatorMain",
   components: { AssetBarChart },
+  mixins: [userMixin],
   data() {
     return {
       // 만단위
-      asset: '',
+      asset: "",
       // 이자
-      interest: '',
+      interest: "",
       // 만단위
-      yearSavingAmount: '',
+      yearSavingAmount: "",
       inflation: 3,
-      periodOfRetire: '',
+      periodOfRetire: "",
       dense: false,
       denseOpts: false,
 
       monthlySpends: [],
-      monthlySpend: '',
-      totalAsset: '',
-      paradiseAmount: '',
+      monthlySpend: "",
+      totalAsset: "",
+      paradiseAmount: "",
       paradise_data: [],
       paradise_columns: [
         {
-          name: 'monthlySpend',
+          name: "monthlySpend",
           required: true,
-          label: '월 금액',
-          align: 'center',
-          field: 'monthlySpend',
+          label: "월 금액",
+          align: "center",
+          field: "monthlySpend",
           format: val => `월 ${this.format10ThousandUnitNumber(val)}`,
           sortable: false
         }
       ],
-      foundMonthlySpend: '',
-      foundInterest: '',
+      foundMonthlySpend: "",
+      foundInterest: "",
       // sample popup flag
       sample: false,
       maximized: false,
       slide: 1,
-      slideStyle: 'height:initial',
+      slideStyle: "height:initial",
+      userUuid: "",
+      resultId: 0
     };
   },
   mounted() {
-    numeral.nullFormat('');
-
-    window.gtag('event', 'page_view', {
+    numeral.nullFormat("");
+    this.userUuid = this.getUserUuid();
+    window.gtag("event", "page_view", {
       page_title: this.$route.name,
       page_location: this.$route.name,
       page_path: this.$route.path
     });
 
     this.monthlySpends.push(...this.createMonthlySpends());
-
   },
   watch: {
     monthlySpend() {
-      if (this.numeralInflation > 0 && this.numeralInterest > 0 && this.numeralPeriodOfRetire > 0) {
+      if (
+        this.numeralInflation > 0 &&
+        this.numeralInterest > 0 &&
+        this.numeralPeriodOfRetire > 0
+      ) {
         this.paradiseAmount = this.calculateParadiseAmount();
         this.initParadaiseDatas();
       }
@@ -419,7 +419,7 @@ export default {
         this.initParadaiseDatas();
       }
     },
-  yearSavingAmount() {
+    yearSavingAmount() {
       if (this.isReadyCalculation) {
         this.initParadaiseDatas();
       }
@@ -467,26 +467,33 @@ export default {
       });
     },
     numeralAsset() {
-      return numeral(this.asset || 0).multiply(10000).value();
+      return numeral(this.asset || 0)
+        .multiply(10000)
+        .value();
     },
     numeralYearSavingAmount() {
-      return numeral(this.yearSavingAmount || 0).multiply(10000).value();
+      return numeral(this.yearSavingAmount || 0)
+        .multiply(10000)
+        .value();
     },
     numeralPeriodOfRetire() {
       return numeral(this.periodOfRetire || 0).value();
     },
     numeralInterest() {
-      return numeral(this.interest || 0).divide(100).value();
+      return numeral(this.interest || 0)
+        .divide(100)
+        .value();
     },
     numeralInflation() {
-      return numeral(this.inflation || 0).divide(100).value();
-    },
+      return numeral(this.inflation || 0)
+        .divide(100)
+        .value();
+    }
   },
   methods: {
     _isReadyCalculation({ asset, yearSavingAmount, interest, periodOfRetire }) {
       return (
-        (numeral(asset).value() > 0 ||
-          numeral(yearSavingAmount).value() > 0) &&
+        (numeral(asset).value() > 0 || numeral(yearSavingAmount).value() > 0) &&
         numeral(interest).value() > 0 &&
         numeral(periodOfRetire).value() > 0
       );
@@ -499,12 +506,13 @@ export default {
         interest: this.numeralInterest,
         inflation: this.numeralInflation
       };
-      const {totalAsset} = calculateTotalAsset(inputs);
+      const { totalAsset } = calculateTotalAsset(inputs);
       this.totalAsset = totalAsset;
 
       this.findNearParadiseValue();
       this.sendGATotalAsset(totalAsset);
       this.sendGAInputs(inputs);
+      this.sendResult();
     }, 0),
 
     changeAssets(value) {
@@ -515,7 +523,7 @@ export default {
 
     changeYearSavingAmount(value) {
       // this.yearSavingAmount = this.formatNumber(value)
-      this.yearSavingAmount = numeral(value).format('0,0');
+      this.yearSavingAmount = numeral(value).format("0,0");
       // this.sendGAYearSavingAmount(value);
     },
 
@@ -537,75 +545,76 @@ export default {
     changeMonthlySpend(value) {
       this.monthlySpend = value;
       this.sendGAMonthlySpend(value);
+      this.sendResult();
     },
 
     sendGAInputAssets: _.debounce(function(value) {
-      window.gtag('event', 'input', {
-        event_category: '자산',
-        event_label: value ? value.replace(/,/g, '') : value
+      window.gtag("event", "input", {
+        event_category: "자산",
+        event_label: value ? value.replace(/,/g, "") : value
       });
     }, 5000),
 
     sendGAYearSavingAmount: _.debounce(function(value) {
-      window.gtag('event', 'input', {
-        event_category: '연저축',
+      window.gtag("event", "input", {
+        event_category: "연저축",
         event_label: value
       });
     }, 5000),
 
     sendGAInterest: _.debounce(function(value) {
-      window.gtag('event', 'input', {
-        event_category: '수익율',
+      window.gtag("event", "input", {
+        event_category: "수익율",
         event_label: value
       });
     }, 5000),
 
     sendGAInflation: _.debounce(function(value) {
-      window.gtag('event', 'input', {
-        event_category: '인플레이션',
+      window.gtag("event", "input", {
+        event_category: "인플레이션",
         event_label: value
       });
     }, 5000),
 
     sendGAperiodOfRetire: _.debounce(function(value) {
-      window.gtag('event', 'input', {
-        event_category: '기간',
+      window.gtag("event", "input", {
+        event_category: "기간",
         event_label: value
       });
     }, 5000),
 
     sendGAMonthlySpend: _.debounce(function(value) {
-      window.gtag('event', 'select', {
-        event_category: '월소비금액',
+      window.gtag("event", "select", {
+        event_category: "월소비금액",
         event_label: value
       });
     }, 2000),
 
     sendGATotalAsset: _.debounce(function(value) {
       let amountByUnit = this.amountClassfication(value, 100000000);
-      window.gtag('event', 'calculate', {
-        event_category: '은퇴 총자산',
+      window.gtag("event", "calculate", {
+        event_category: "은퇴 총자산",
         event_label: amountByUnit ? `${amountByUnit} 억` : amountByUnit
       });
     }, 2000),
 
     sendGAInputs: _.debounce(function(inputs) {
       let values = [];
-      for(let key in inputs) {
+      for (let key in inputs) {
         values.push(`${key}=${inputs[key]}`);
       }
 
-      window.gtag('event', 'input', {
-        event_category: '계산입력값',
-        event_label: values.join('&')
+      window.gtag("event", "input", {
+        event_category: "계산입력값",
+        event_label: values.join("&")
       });
     }, 2000),
 
     sendGACalculatedMonthlySpend: _.debounce(function(value) {
       let amountByUnit = this.amountClassfication(value, 1000000);
 
-      window.gtag('event', 'calculate', {
-        event_category: '은퇴 월소비',
+      window.gtag("event", "calculate", {
+        event_category: "은퇴 월소비",
         event_label: amountByUnit ? `${amountByUnit} 백만` : amountByUnit
       });
     }, 2000),
@@ -625,7 +634,7 @@ export default {
       return amountByUnit;
     },
     inputNumberHandler(target) {
-      target.value = numeral(target.value).format('0,0');
+      target.value = numeral(target.value).format("0,0");
     },
 
     inputAmount10ThousandUnitHandler(target) {
@@ -637,8 +646,8 @@ export default {
     },
 
     formatNumber(value) {
-      numeral.nullFormat('');
-      return numeral(value).format('0,0');
+      numeral.nullFormat("");
+      return numeral(value).format("0,0");
     },
 
     createMonthlySpends() {
@@ -653,8 +662,6 @@ export default {
       return data;
     },
 
-
-
     calculateParadiseAmount(
       amount = this.monthlySpend,
       interest = this.numeralInterest - this.numeralInflation,
@@ -665,8 +672,7 @@ export default {
         return undefined;
       }
 
-      var paradise =
-        (amount * 12 * Math.pow(1 + inflation, terms)) / interest;
+      var paradise = (amount * 12 * Math.pow(1 + inflation, terms)) / interest;
       return paradise;
     },
 
@@ -697,14 +703,14 @@ export default {
 
     paradiseStateColor() {
       if (isNaN(this.paradiseAmount) || this.paradiseAmount <= 0) {
-        return '';
+        return "";
       }
 
       if (isNaN(this.totalAsset) || this.totalAsset <= 0) {
-        return '';
+        return "";
       }
 
-      var stateColors = ['red', 'yellow', 'green'];
+      var stateColors = ["red", "yellow", "green"];
       var rate = (this.paradiseAmount - this.totalAsset) / this.totalAsset;
       if (rate >= 0.5) {
         return stateColors[0];
@@ -753,9 +759,9 @@ export default {
     },
 
     useExample1() {
-      window.gtag('event', 'click', {
-        event_category: 'tag',
-        event_label: 'use1'
+      window.gtag("event", "click", {
+        event_category: "tag",
+        event_label: "use1"
       });
 
       this.sample = false;
@@ -764,44 +770,84 @@ export default {
 
     useFavorite1() {
       this.favoriteSet1();
-      this.sendGASetTag('favorite1')
+      this.sendGASetTag("favorite1");
     },
 
     useFavorite2() {
       this.favoriteSet2();
-      this.sendGASetTag('favorite2')
+      this.sendGASetTag("favorite2");
     },
 
     sendGASetTag(tabName) {
-      const {asset, yearSavingAmount, interest, inflation, periodOfRetire, monthlySpend} = this;
-      window.gtag('event', 'click', {
-        event_category: 'tag',
-        event_label: JSON.stringify({tag: tabName, asset, yearSavingAmount, interest, inflation, periodOfRetire, monthlySpend})
+      const {
+        asset,
+        yearSavingAmount,
+        interest,
+        inflation,
+        periodOfRetire,
+        monthlySpend
+      } = this;
+      window.gtag("event", "click", {
+        event_category: "tag",
+        event_label: JSON.stringify({
+          tag: tabName,
+          asset,
+          yearSavingAmount,
+          interest,
+          inflation,
+          periodOfRetire,
+          monthlySpend
+        })
       });
     },
     bannerLoaded($el) {
       this.slideStyle = `height:${$el.currentTarget.height}px`;
-    }
+    },
+    sendResult: _.debounce(async function() {
+      if (!this.isReadyCalculation) {
+        return;
+      }
 
+      if (this.resultId && this.monthlySpend) {
+        this.updateTarget();
+      } else {
+        const data = await saveCalculatedResult({
+          userUuid: this.userUuid,
+          assets: this.asset,
+          yearSavingAmount: this.yearSavingAmount,
+          termsOfRetire: this.periodOfRetire,
+          interest: this.interest,
+          inflation: this.inflation,
+          totalAssets: this.totalAsset,
+          paradiseAmount: this.paradiseAmount
+        });
+
+        this.resultId = data.id;
+      }
+    }, 2000),
+    updateTarget() {
+      updateTargetAsset({
+        userUuid: this.userUuid,
+        resultId: this.resultId,
+        paradiseAmount: this.paradiseAmount
+      });
+    }
   }
 };
 </script>
 
-
 <style>
 .scroll {
-  overflow:hidden
+  overflow: hidden;
 }
 </style>
 
-
 <style scoped>
-
 .tag {
   margin-right: 5px;
 }
 
-.q-carousel__slide { 
+.q-carousel__slide {
   padding: initial;
 }
 
@@ -812,7 +858,7 @@ export default {
 .banner > img {
   width: 100%;
   pointer-events: none;
-  user-drag: none; 
+  user-drag: none;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-drag: none;
@@ -821,7 +867,6 @@ export default {
   border-radius: 9px;
 }
 
-
 .Rectangle {
   width: 45px;
   padding: 0 0 0 11px;
@@ -829,7 +874,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.pagination_total  {
+.pagination_total {
   width: 13px;
   height: 13px;
   margin: 0;
@@ -858,10 +903,9 @@ export default {
   color: #fff;
 }
 
-
 @media (min-width: 620px) {
   .banner {
-    max-width:620px;
+    max-width: 620px;
   }
 }
 </style>
