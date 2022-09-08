@@ -744,7 +744,6 @@ export default {
           ((interest - inflation) / 100)
       ).toFixed(2);
 
-      console.log(1234);
       return totalAssets;
     }, 100),
 
