@@ -618,7 +618,7 @@ export default {
 
     changeMonthlySpend(value) {
       this.monthlySpend = value;
-      this.sendResult();
+      // this.sendResult();
       this.sendGAMonthlySpend(value);
     },
 
@@ -932,11 +932,11 @@ export default {
       }
     }, 2000),
     updateTarget() {
-      updateTargetAsset({
-        userUuid: this.userUuid,
-        resultId: this.resultId,
-        paradiseAmount: this.paradiseAmount
-      });
+      // updateTargetAsset({
+      //   userUuid: this.userUuid,
+      //   resultId: this.resultId,
+      //   paradiseAmount: this.paradiseAmount
+      // });
     }
   }
 };

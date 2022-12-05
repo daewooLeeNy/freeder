@@ -545,7 +545,7 @@ export default {
     changeMonthlySpend(value) {
       this.monthlySpend = value;
       this.sendGAMonthlySpend(value);
-      this.sendResult();
+      // this.sendResult();
     },
 
     sendGAInputAssets: _.debounce(function(value) {
@@ -826,11 +826,11 @@ export default {
       }
     }, 2000),
     updateTarget() {
-      updateTargetAsset({
-        userUuid: this.userUuid,
-        resultId: this.resultId,
-        paradiseAmount: this.paradiseAmount
-      });
+      // updateTargetAsset({
+      //   userUuid: this.userUuid,
+      //   resultId: this.resultId,
+      //   paradiseAmount: this.paradiseAmount
+      // });
     }
   }
 };
