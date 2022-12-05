@@ -1,42 +1,12 @@
 <template>
   <q-page>
-    <div class="q-pa-md banner-container">
-      <q-carousel
-        swipeable
-        animated
-        v-model="slide"
-        infinite
-        style="max-width:620px;"
-        :style="slideStyle"
-      >
-        <q-carousel-slide :name="1" :draggable="false" class="fit">
-          <div class="banner">
-            <img
-              src="~assets/img_banner/img_banner2.png"
-              @load="bannerLoaded"
-            />
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="2" :draggable="false" class="fit">
-          <div class="banner">
-            <img src="~assets/img_banner/img_banner1.png" />
-          </div>
-        </q-carousel-slide>
-
-        <template v-slot:control>
-          <q-carousel-control
-            position="top-right"
-            :offset="[18, 18]"
-            style="margin:0;padding:5px"
-          >
-            <div class="Rectangle">
-              <span class="pagination_current"> {{ slide }} </span>
-              <span class="pagination_total">/ 2 </span>
-            </div>
-          </q-carousel-control>
-        </template>
-      </q-carousel>
-    </div>
+    <ins
+      class="kakao_ad_area"
+      style="display:none;"
+      data-ad-unit="DAN-xEuxbdjl3PYr84Rx"
+      data-ad-width="728"
+      data-ad-height="90"
+    ></ins>
 
     <div class="q-pa-md">
       <h4 class="q-my-md">당신의 자산 목표 금액은?</h4>
