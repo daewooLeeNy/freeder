@@ -1,12 +1,12 @@
 <template>
   <q-page>
-    <ins
-      class="kakao_ad_area"
-      style="display:none;"
-      data-ad-unit="DAN-xEuxbdjl3PYr84Rx"
+    <adfit-banner
+      data-ad-test="Y"
+      data-ad-unit="DAN-KXDCuGruLAwewVxv"
       data-ad-width="728"
       data-ad-height="90"
-    ></ins>
+    >
+    </adfit-banner>
 
     <div class="q-pa-md">
       <h4 class="q-my-md">당신의 자산 목표 금액은?</h4>
@@ -317,10 +317,11 @@ import { calculateTotalAsset } from "../components/Calculator";
 import AssetBarChart from "./AssetBarChart.vue";
 import { saveCalculatedResult, updateTargetAsset } from "../components/api";
 import userMixin from "../components/user";
+import AdfitBanner from "../components/AdfitBanner.vue";
 
 export default {
   name: "ParadiseCalculatorMain",
-  components: { AssetBarChart },
+  components: { AssetBarChart, AdfitBanner },
   mixins: [userMixin],
   data() {
     return {
