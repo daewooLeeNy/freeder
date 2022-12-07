@@ -23,15 +23,15 @@ export default {
   props: {
     adUnit: {
       type: String,
-      required: true
+      required: false
     },
     adWidth: {
       type: String,
-      required: true
+      required: false
     },
     adHeight: {
       type: String,
-      required: true
+      required: false
     },
     adStyle: {
       type: String,

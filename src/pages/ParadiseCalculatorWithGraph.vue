@@ -1,7 +1,18 @@
 <template>
   <q-page>
     <adfit-banner
-      data-ad-test="Y"
+      v-if="this.$q.platform.is.mobile"
+      class="mobile-only"
+      data-ad-test="N"
+      data-ad-unit="DAN-8jfXWUA2YAisseAd"
+      data-ad-width="320"
+      data-ad-height="100"
+    >
+    </adfit-banner>
+    <adfit-banner
+      v-else
+      class="desktop-only"
+      data-ad-test="N"
       data-ad-unit="DAN-KXDCuGruLAwewVxv"
       data-ad-width="728"
       data-ad-height="90"
@@ -176,6 +187,26 @@
         :inflation="numeralInflation"
       ></asset-bar-chart>
     </div>
+
+    <adfit-banner
+      v-if="this.$q.platform.is.mobile"
+      class="mobile-only q-mt-md"
+      data-ad-test="N"
+      data-ad-unit="DAN-pL8lSXeq6mD6flLp"
+      data-ad-width="320"
+      data-ad-height="50"
+    >
+    </adfit-banner>
+    <adfit-banner
+      v-else
+      class="desktop-only"
+      data-ad-test="N"
+      data-ad-unit="DAN-DY585WTxpwsc0W1X"
+      data-ad-width="728"
+      data-ad-height="90"
+    >
+    </adfit-banner>
+
     <div class="q-pa-md">
       <h4 class="q-my-md">당신의 낙원 금액은?</h4>
       <div class="text-subtitle1">
