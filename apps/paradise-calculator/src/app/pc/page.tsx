@@ -88,7 +88,7 @@ const AssetGoalCalculator = () => {
 
   const handleCreateShortcut = () => {
     if ("chrome" in window && "runtime" in window.chrome) {
-      chrome.runtime.sendMessage({ action: "createShortcut" });
+      window.chrome.runtime.sendMessage({ action: "createShortcut" });
     } else {
       alert("이 기능은 Chrome 브라우저 확장 프로그램에서만 사용 가능합니다.");
     }
