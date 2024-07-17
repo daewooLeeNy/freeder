@@ -1,0 +1,11 @@
+{
+  "folders": [
+    {
+      "path": "apps/paradise-calculator"
+    },
+    {
+      "name": "monorepo",
+      "path": "./"
+    }
+  ]
+}

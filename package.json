@@ -1,60 +1,14 @@
 {
-  "name": "paradise-calculator",
-  "version": "0.0.1",
-  "description": "낙원 계산기",
-  "productName": "낙원 계산기",
-  "cordovaId": "org.cordova.quasar.app",
-  "author": "DaeWoo Lee <lsinji@gmail.com>",
+  "name": "@my-project",
+  "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@8.15.4",
   "scripts": {
-    "local": "quasar dev",
-    "build": "quasar build",
-    "lint": "eslint --fix --ext .js,.vue src",
-    "test": "echo \"See package.json => scripts for available tests.\" && exit 0",
-    "deploy": "cp -R dist/spa/ ../daewooLeeNy.github.io/",
-    "test:unit": "jest --updateSnapshot",
-    "test:unit:ci": "jest --ci",
-    "test:unit:coverage": "jest --coverage",
-    "test:unit:watch": "jest --watch",
-    "test:unit:watchAll": "jest --watchAll",
-    "serve:test:coverage": "quasar serve test/jest/coverage/lcov-report/ --port 8788",
-    "concurrently:dev:jest": "concurrently \"quasar dev\" \"jest --watch\"",
-    "test:unit:ui": "majestic"
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint"
   },
   "dependencies": {
-    "@quasar/extras": "^1.10.6",
-    "axios": "^0.27.2",
-    "chart.js": "^3.3.2",
-    "lodash": "^4.17.21",
-    "numeral": "^2.0.6",
-    "quasar": "^1.15.19",
-    "swiper": "^8.2.4",
-    "uuid": "^8.3.2",
-    "vue-sessionstorage": "^1.0.0"
-  },
-  "devDependencies": {
-    "@quasar/app": "^1.9.6",
-    "@quasar/quasar-app-extension-testing": "^1.0.3",
-    "@quasar/quasar-app-extension-testing-unit-jest": "^2.2.2",
-    "@vue/eslint-config-prettier": "^4.0.0",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.10.0",
-    "eslint-loader": "^2.1.1",
-    "eslint-plugin-jest": "^24.1.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "majestic": "^1.2.24",
-    "push-dir": "^0.4.1",
-    "strip-ansi": "=3.0.1"
-  },
-  "engines": {
-    "node": ">= 8.9.0",
-    "npm": ">= 5.6.0",
-    "yarn": ">= 1.6.0"
-  },
-  "browserslist": [
-    "last 1 version, not dead, ie >= 11"
-  ],
-  "resolutions": {
-    "ajv": "6.8.1"
+    "turbo": "^2.0.6"
   }
 }
