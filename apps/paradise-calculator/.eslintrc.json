@@ -1,6 +1,5 @@
 {
-  "plugins": ["prettier"],
-  "extends": ["next/core-web-vitals", "plugin:prettier/recommended", "prettier/@typescript-eslint"],
+  "extends": ["next/core-web-vitals"],
   "rules": {
     // 'React' must be in scope when using JSX 에러 해결 (Next.js)
     "react/react-in-jsx-scope": "off",
