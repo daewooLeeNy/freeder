@@ -1,0 +1,1053 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`자산 목표 화면 기본값이 설정된 진입 페이지: 기본값 1`] = `
+<div>
+  <main
+    class="p-4 max-w-screen-lg mx-auto"
+  >
+    <div
+      class="rounded-xl border bg-card text-card-foreground shadow mb-4"
+    >
+      <div
+        class="flex flex-col space-y-1.5 p-6 relative"
+      >
+        <div
+          class="flex justify-between w-full"
+        >
+          <h3
+            class="font-semibold leading-none tracking-tight flex-1"
+          >
+            목표 설정
+          </h3>
+          <div
+            class="flex flex-1 items-center justify-end gap-2 xs:mr-8"
+          >
+            <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              for="dividend-goal-main"
+            >
+              배당 목표
+            </label>
+            <button
+              aria-checked="false"
+              class="peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input"
+              data-state="unchecked"
+              id="dividend-goal-main"
+              role="switch"
+              type="button"
+              value="on"
+            >
+              <span
+                class="pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"
+                data-state="unchecked"
+              />
+            </button>
+          </div>
+        </div>
+        <svg
+          aria-controls="radix-:r0:"
+          aria-expanded="false"
+          aria-haspopup="dialog"
+          class="lucide lucide-settings2 absolute top-[18px] right-7 hidden xs:block"
+          data-state="closed"
+          fill="none"
+          height="18"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          type="button"
+          viewBox="0 0 24 24"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20 7h-9"
+          />
+          <path
+            d="M14 17H5"
+          />
+          <circle
+            cx="17"
+            cy="17"
+            r="3"
+          />
+          <circle
+            cx="7"
+            cy="7"
+            r="3"
+          />
+        </svg>
+      </div>
+      <div
+        class="p-6 pt-0"
+      >
+        <div
+          class="grid grid-cols-2 space-4 gap-4"
+        >
+          <div>
+            <label
+              class="block text-sm font-medium mb-1"
+              for="targetAmount"
+            >
+              목표 금액 (원)
+            </label>
+            <input
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              id="targetAmount"
+              placeholder="0"
+              type="text"
+              value="1,000,000,000"
+            />
+          </div>
+          <div>
+            <label
+              class="block text-sm font-medium mb-1"
+              for="investmentReturn"
+            >
+              목표 투자 수익률 (%)
+            </label>
+            <input
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              id="investmentReturn"
+              placeholder="0"
+              type="text"
+              value="10"
+            />
+          </div>
+          <div>
+            <label
+              class="block text-sm font-medium mb-1"
+              for="currentAssets"
+            >
+              현재 자산 (원)
+            </label>
+            <input
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              id="currentAssets"
+              placeholder="0"
+              type="text"
+              value="100,000,000"
+            />
+          </div>
+          <div>
+            <label
+              class="block text-sm font-medium mb-1"
+              for="annualSavings"
+            >
+              연간 저축액 (원)
+            </label>
+            <input
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              id="annualSavings"
+              placeholder="0"
+              type="text"
+              value="20,000,000"
+            />
+          </div>
+          <div>
+            <label
+              class="block text-sm font-medium mb-1"
+              for="dividendYield"
+            >
+              목표 달성 후 예상 배당 수익률 (%)
+            </label>
+            <input
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              id="dividendYield"
+              placeholder="0"
+              type="text"
+              value="5"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="rounded-xl border bg-card text-card-foreground shadow mb-4"
+    >
+      <div
+        class="flex flex-col space-y-1.5 p-6"
+      >
+        <h3
+          class="font-semibold leading-none tracking-tight"
+        >
+          결과
+        </h3>
+      </div>
+      <div
+        class="p-6 pt-0"
+      >
+        <div
+          class="space-y-2"
+        >
+          <p
+            class="text-lg font-semibold"
+          >
+            목표 
+            금액
+             달성까지 약 
+            <span
+              class="font-semibold underline decoration-primary"
+            >
+              19
+            </span>
+            년이 걸립니다.
+          </p>
+          <p>
+            달성 금액: 
+            <span
+              class="font-semibold underline decoration-primary"
+            >
+              ₩1,857,991,759
+            </span>
+             
+             (물가: ↑3%)
+          </p>
+          <p>
+            달성 후 예상 배당금: 
+            <span
+              class="font-semibold underline decoration-primary"
+            >
+              ₩7,741,632
+              /월 
+            </span>
+            , 
+            <span
+              class="font-semibold underline decoration-primary"
+            >
+              ₩92,899,588
+              /연
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="rounded-xl border bg-card text-card-foreground shadow mb-4"
+    >
+      <div
+        class="flex flex-col space-y-1.5 p-6"
+      >
+        <h3
+          class="font-semibold leading-none tracking-tight"
+        >
+          연도별 자산 증가 그래프
+        </h3>
+      </div>
+      <div
+        class="p-6 pt-0"
+      >
+        <div
+          class="recharts-responsive-container"
+          style="width: 100%; height: 300px; min-width: 0;"
+        />
+      </div>
+    </div>
+    <div
+      class="rounded-xl border bg-card text-card-foreground shadow"
+    >
+      <div
+        class="p-6 pt-0"
+      >
+        <div
+          class="relative w-full overflow-auto"
+        >
+          <table
+            class="w-full caption-bottom text-sm"
+          >
+            <thead
+              class="[&_tr]:border-b"
+            >
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <th
+                  class="h-10 px-2 align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] w-[80px] text-right"
+                >
+                  년차
+                </th>
+                <th
+                  class="h-10 px-2 align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  자본
+                </th>
+                <th
+                  class="h-10 px-2 align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  저축
+                </th>
+                <th
+                  class="h-10 px-2 align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  누적수익
+                </th>
+                <th
+                  class="h-10 px-2 align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  기초자산
+                </th>
+                <th
+                  class="h-10 px-2 align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  기말자산
+                </th>
+                <th
+                  class="h-10 px-2 align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  목표자산
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="[&_tr:last-child]:border-0"
+            >
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  120,000,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  20,000,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  10,000,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  100,000,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  130,000,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,000,000,000
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  2
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  140,600,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  20,600,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  23,000,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  130,000,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  163,600,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,030,000,000
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  3
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  161,818,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  21,218,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  39,360,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  163,600,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  201,178,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,060,900,000
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  4
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  183,672,540
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  21,854,540
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  59,477,800
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  201,178,000
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  243,150,340
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,092,727,000
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  5
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  206,182,716
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  22,510,176
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  83,792,834
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  243,150,340
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  289,975,550
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,125,508,810
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  6
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  229,368,198
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  23,185,481
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  112,790,389
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  289,975,550
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  342,158,587
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,159,274,074
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  7
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  253,249,244
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  23,881,046
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  147,006,248
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  342,158,587
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  400,255,491
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,194,052,297
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  8
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  277,846,721
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  24,597,477
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  187,031,797
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  400,255,491
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  464,878,518
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,229,873,865
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  9
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  303,182,123
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  25,335,402
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  233,519,649
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  464,878,518
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  536,701,771
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,266,770,081
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  10
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  329,277,586
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  26,095,464
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  287,189,826
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  536,701,771
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  616,467,412
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,304,773,184
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  11
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  356,155,914
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  26,878,328
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  348,836,567
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  616,467,412
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  704,992,481
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,343,916,379
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  12
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  383,840,591
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  27,684,677
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  419,335,815
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  704,992,481
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  803,176,406
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,384,233,871
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  13
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  412,355,809
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  28,515,218
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  499,653,456
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  803,176,406
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  912,009,265
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,425,760,887
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  14
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  441,726,483
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  29,370,674
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  590,854,382
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  912,009,265
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,032,580,865
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,468,533,713
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  15
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  471,978,278
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  30,251,794
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  694,112,469
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,032,580,865
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,166,090,746
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,512,589,725
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  16
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  503,137,626
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  31,159,348
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  810,721,543
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,166,090,746
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,313,859,169
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,557,967,417
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  17
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  535,231,755
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  32,094,129
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  942,107,460
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,313,859,169
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,477,339,215
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,604,706,439
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  18
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  568,288,707
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  33,056,953
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,089,841,382
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,477,339,215
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,658,130,089
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,652,847,632
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+              >
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  19
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  602,337,369
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  34,048,661
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,255,654,391
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,658,130,089
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,857,991,759
+                </td>
+                <td
+                  class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] text-right"
+                >
+                  1,702,433,061
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+`;
