@@ -13,6 +13,8 @@ const config = {
     screens: {
       "2xs": "320px",
       "xs": "360px",
+      "md": "860px",
+      "lg": "1080px",
     },
     container: {
       center: true,

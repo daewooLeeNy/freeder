@@ -10,9 +10,7 @@ export default function GoalAssetLayout({
     <div className="min-h-screen bg-background text-foreground">
       <GoalAssetProvider>
         <Header/>
-        <main className="p-4 max-w-screen-lg mx-auto">
-          {children}
-        </main>
+        {children}
       </GoalAssetProvider>
     </div>
   )

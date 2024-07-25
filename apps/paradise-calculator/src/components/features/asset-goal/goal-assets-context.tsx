@@ -9,6 +9,7 @@ interface GoalAssetAttr {
   investmentReturn?: string;
   dividendYield?: string;
   inflation?: number;
+  years?: string;
   isApplyInflation:boolean
 }
 
@@ -24,6 +25,7 @@ const DefaultAssetGoalAttr:GoalAssetAttr = {
   targetAmount: '1,000,000,000',
   investmentReturn: "10",
   dividendYield: "5",
+  years: '10',
   isDividendGoal: false,
   inflation: INFLATION_RATE,
   isApplyInflation:true,
