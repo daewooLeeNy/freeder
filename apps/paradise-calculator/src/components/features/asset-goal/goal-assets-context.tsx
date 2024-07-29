@@ -6,6 +6,7 @@ interface GoalAssetAttr {
   currentAssets?: string;
   annualSavings?: string;
   targetAmount?: string;
+  targetPeriod?: string;
   investmentReturn?: string;
   dividendYield?: string;
   inflation?: number;
@@ -23,6 +24,7 @@ const DefaultAssetGoalAttr:GoalAssetAttr = {
   currentAssets: '100,000,000',
   annualSavings: '20,000,000',
   targetAmount: '1,000,000,000',
+  targetPeriod : '10',
   investmentReturn: "10",
   dividendYield: "5",
   years: '10',

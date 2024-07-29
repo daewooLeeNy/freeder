@@ -12,7 +12,7 @@ const Header = () => {
   const pathname = usePathname();
   const assetAttr = useAssetGoalAttributes()
 
-  const onChangeOptions = ({inflation, isApplyInflation, isDividendGoal}:Pick<GoalAssetAttr, 'inflation' | 'isApplyInflation' | 'isDividendGoal'>) => {
+  const onChangeOptions = ({inflation, isApplyInflation, isDividendGoal}:Partial<Pick<GoalAssetAttr, 'inflation' | 'isApplyInflation' | 'isDividendGoal'>>) => {
     assetAttr.setAssetAttributes({inflation, isDividendGoal, isApplyInflation})
   }
 
@@ -26,8 +26,9 @@ const Header = () => {
           </div>
 
           <nav className="space-x-8">
-            <Link href="/goal-assets" className={cn('text-gray-600', getSelectedClassNames(pathname === '/goal-assets'))}>낙원 계산기</Link>
-            <Link href="/goal-interest" className={cn('text-gray-600', getSelectedClassNames(pathname === '/goal-interest'))}>목표 수익율</Link>
+            <Link href="/goal-line" className={cn('text-gray-600', getSelectedClassNames(pathname === '/goal-line'))} title="낙원 시간 계산기">낙원 🏁 계산기</Link>
+            <Link href="/goal-assets" className={cn('text-gray-600', getSelectedClassNames(pathname === '/goal-assets'))} title="낙원 자산 계산기">낙원 💰 계산기</Link>
+            <Link href="/goal-interest" className={cn('text-gray-600', getSelectedClassNames(pathname === '/goal-interest'))} title="목표 수익율">목표 수익율</Link>
           </nav>
         </div>
         <SettingDialog inflation={assetAttr.inflation} isApplyInflation={assetAttr.isApplyInflation} isDividendGoal={assetAttr.isDividendGoal} onChange={onChangeOptions} className="xs:hidden"/>

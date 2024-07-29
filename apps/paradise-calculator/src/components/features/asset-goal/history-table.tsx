@@ -52,7 +52,7 @@ const HistoryTable = ({annaulAssetData}: {annaulAssetData: AssetGoalAnnualDataTy
                   <TableCell className="text-right">{item.accInvestmentGain.toLocaleString()}</TableCell>
                   <TableCell className="text-right">{item.baseAssets.toLocaleString()}</TableCell>
                   <TableCell className="text-right">{item.totalAssets.toLocaleString()}</TableCell>
-                  <TableCell className="text-right">{item.targetAmount.toLocaleString()}</TableCell>
+                  <TableCell className="text-right">{item.targetAmount?.toLocaleString()}</TableCell>
                 </TableRow>
               ))}
               </TableBody>

@@ -1,4 +1,5 @@
-import { calculateAnnualAssetsHistory } from "./asset-goals";
+import { parseAmountStringToFloat } from "@/lib/currency";
+import { calculateAnnualAssetsHistory, calculateTargetAmountWithHistory } from "./asset-goals";
 describe("asset-goals", () => {
   const testBaseOptions = {
       isDividendGoal: false,
@@ -85,4 +86,46 @@ describe("asset-goals", () => {
       year: 15,
     });
   });
+});
+
+
+describe("asset-goals", () => {
+    const testBaseOptions = {
+      isDividendGoal: false,
+      currentAssets: "100,000,000",
+      annualSavings: "20,000,000",
+      targetPeriod: "10",
+      investmentReturn: "10",
+      dividendYield: "5",
+      inflation: 0.03,
+      isApplyInflation: true
+    }
+
+  it('calculateTargetAmountWithHistory(): 10년후 달성 자산에 대한 계산 금액이 맞는지 확이 한다.', () => {
+    const results = calculateTargetAmountWithHistory({...testBaseOptions});
+
+    const { annualData, ...remainAttrs} = results || {};
+    const current = parseAmountStringToFloat(testBaseOptions.currentAssets);
+    const period = parseInt(testBaseOptions.targetPeriod);
+    const returnRate = parseInt(testBaseOptions.investmentReturn) / 100;
+    const annualSavings = parseAmountStringToFloat(testBaseOptions.annualSavings);
+    const inflation = testBaseOptions.inflation;
+    const dividendYield = parseInt(testBaseOptions.dividendYield) / 100;
+    
+    let reachAmount = 0;
+    let inflationAnnualSavings = annualSavings;
+
+    reachAmount = current * (1+returnRate) + inflationAnnualSavings;
+    
+    Array(period-1).fill(0).map((_, index) => {
+      inflationAnnualSavings*=1+inflation;
+      reachAmount = reachAmount * (1+returnRate) + inflationAnnualSavings;
+    })
+
+    expect(remainAttrs).toStrictEqual({
+      "actualTargetAmount": Math.round(reachAmount),
+      "annualDividend": Math.round(reachAmount * dividendYield),
+      "years": period,
+    });
+  })
 });

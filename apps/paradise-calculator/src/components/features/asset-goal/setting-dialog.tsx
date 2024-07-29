@@ -19,13 +19,14 @@ import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { GoalAssetAttr } from "./goal-assets-context";
 
-type CalculatorOptions = Pick<GoalAssetAttr, 'inflation' | 'isDividendGoal' | 'isApplyInflation'>
+type CalculatorOptions = Partial<Pick<GoalAssetAttr, 'inflation' | 'isDividendGoal' | 'isApplyInflation'>>
 
 interface SettingDialogProps extends CalculatorOptions {
+  displayTargetType?: boolean
   className?:string
   onChange: (options:CalculatorOptions) => void
 }
-const SettingDialog: React.FC<SettingDialogProps> = ({  isApplyInflation, isDividendGoal, inflation = 0, className, onChange }) => {
+const SettingDialog: React.FC<SettingDialogProps> = ({  isApplyInflation, isDividendGoal, inflation = 0, displayTargetType = true, className, onChange }) => {
   const [_inflation, setInflation] = React.useState<string>(String(inflation*100));
   const [_isDividendGoal, setIsDividendGoal] = React.useState(isDividendGoal);
   const [_isApplyInflation, setIsApplyInflation] = React.useState(isApplyInflation);
@@ -73,10 +74,13 @@ const SettingDialog: React.FC<SettingDialogProps> = ({  isApplyInflation, isDivi
               <span>%</span>
             </div>
           </div>
-          <div className="w-full flex flex-1 gap-4">
-            <Label htmlFor="dividend-goal" className="w-26">배당 목표로 계산</Label>
-            <Switch id="dividend-goal" checked={_isDividendGoal} onCheckedChange={setIsDividendGoal} />
-          </div>
+          
+          {displayTargetType && 
+            <div className="w-full flex flex-1 gap-4">
+              <Label htmlFor="dividend-goal" className="w-26">배당 목표로 계산</Label>
+              <Switch id="dividend-goal" checked={_isDividendGoal} onCheckedChange={setIsDividendGoal} />
+            </div>
+          }
         </div>
 
         <DialogFooter>

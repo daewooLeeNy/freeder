@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { calculateAnnualAssetsHistory, calculateTargetAmountWithHistory } from "@/hooks/asset-goals";
+import { calculateAnnualAssetsHistory } from "@/hooks/asset-goals";
 import SettingDialog from "@/components/features/asset-goal/setting-dialog";
 import { GoalAssetAttr, useAssetGoalAttributes } from "@/components/features/asset-goal/goal-assets-context";
 import { HistoryTable } from "@/components/features/asset-goal/history-table";
@@ -15,9 +15,10 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 
 const AssetGoalCalculator = () => {
   const {
+    isDividendGoal,
     currentAssets,
     annualSavings,
-    targetPeriod,
+    targetAmount,
     investmentReturn,
     dividendYield,
     inflation,
@@ -63,10 +64,11 @@ const AssetGoalCalculator = () => {
       annualData,
       actualTargetAmount,
       annualDividend,
-    } = calculateTargetAmountWithHistory({
+    } = calculateAnnualAssetsHistory({
+      isDividendGoal,
       currentAssets: currentAssets || '0',
       annualSavings: annualSavings || '0',
-      targetPeriod: targetPeriod || '0',
+      targetAmount: targetAmount || '0',
       investmentReturn: investmentReturn || '0',
       dividendYield: dividendYield || '0',
       inflation: inflation || 0,
@@ -92,41 +94,64 @@ const AssetGoalCalculator = () => {
 
   useEffect(() => {
     calculateYearsAndGraph();
-  }, [currentAssets, annualSavings, targetPeriod, investmentReturn, dividendYield, inflation, isApplyInflation]);
+  }, [currentAssets, annualSavings, targetAmount, investmentReturn, dividendYield, isDividendGoal, inflation, isApplyInflation]);
+
+  // TODO 자산 <-> 배당 기준이 바뀔때 자산이 이미 계산된 적이 있는 경우는 목표금액이 이전 금액 기준으로 입력 했다고 판단하여 해당 기준(배당or자산)변환 처리 함.
+  const convertTargetAmountForGoalType = (_isDividendGoal:boolean) => {
+    if(!dividendYield || !targetAmount) return 0;
+
+    if(_isDividendGoal && targetAmount && years && parseInt(dividendYield) > 0)  {
+      return parseAmountStringToFloat(targetAmount) * (parseAmountStringToFloat(dividendYield) / 100)
+    } else if(!_isDividendGoal && targetAmount && years && parseInt(dividendYield) > 0) {
+      return parseAmountStringToFloat(targetAmount) / (parseAmountStringToFloat(dividendYield) / 100)
+    }
+
+    return 0;
+  }
+
+  const onChangeTargetAmountDividenedType = (isDividendGoal:boolean) => {
+    const dividendTarget = convertTargetAmountForGoalType(isDividendGoal)
+    setAssetAttributes?.({isDividendGoal: isDividendGoal, targetAmount: dividendTarget.toLocaleString()});
+  }
 
   const onChangeSettings = (attributes:Partial<GoalAssetAttr>) => {
-    setAssetAttributes?.({...attributes});
+    if(attributes.isDividendGoal !== undefined && attributes.isDividendGoal !== isDividendGoal) {
+      const dividendTarget = convertTargetAmountForGoalType(attributes.isDividendGoal)
+      setAssetAttributes?.({...attributes, targetAmount: dividendTarget.toLocaleString()});
+    } else {
+      setAssetAttributes?.({...attributes});
+    }
   }
 
   return (
     <main className="p-4 max-w-screen-lg mx-auto">
       <h1 className="text-lg font-bold">
-        🏖 낙원 자산(💰) 계산기 <span className="text-sm font-medium">(목표 자산 계산하기)</span>
+        🏖 낙원 시간(🏁) 계산기 <span className="text-sm font-medium">(은퇴시기 계산하기)</span>
       </h1>
-      <p className="text-sm">여러분의 낙원(경제적 자유)을 만들기 위해 자산💰 목표를 세워보세요. 여러분은 이미 낙원🏖에 한발자국👟👟 다가갔습니다.</p>
+      <p className="text-sm">여러분의 낙원(경제적 자유)까지 얼마나 걸리는지 계산해보세요. 여러분은 이미 낙원🏖에 한발자국👟👟 다가갔습니다.</p>
 
       <Card className="my-4">
         <CardHeader className="relative">
           <div className="flex justify-between w-full">
             <CardTitle className="flex-1">목표 설정</CardTitle>
             <div className="flex flex-1 items-center justify-end gap-2 xs:mr-8">
-              <Label htmlFor="dividend-goal-main">저축 증가율</Label>
-              <Switch id="dividend-goal-main" checked={isApplyInflation} onCheckedChange={() => onChangeSettings({isApplyInflation: !isApplyInflation})} />
+              <Label htmlFor="dividend-goal-main">배당 목표</Label>
+              <Switch id="dividend-goal-main" checked={isDividendGoal} onCheckedChange={onChangeTargetAmountDividenedType} />
             </div>
           </div>
-          <SettingDialog displayTargetType={false} inflation={inflation} isApplyInflation={isApplyInflation} onChange={onChangeSettings} className="hidden xs:block"/>
+          <SettingDialog inflation={inflation} isApplyInflation={isApplyInflation} isDividendGoal={isDividendGoal} onChange={onChangeSettings} className="hidden xs:block"/>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 space-4 gap-4">
-             <div>
-              <label htmlFor="dividendYield" className="block text-sm font-medium mb-1">
-                낙원(자유) 기간
+              <div>
+              <label htmlFor="targetAmount" className="block text-sm font-medium mb-1">
+                {isDividendGoal ? "목표 연간 배당금 (원)" : "목표 금액 (원)"}
               </label>
               <Input
-                id="targetPeriod"
+                id="targetAmount"
                 type="text"
-                value={targetPeriod}
-                onChange={getChangeHandler('targetPeriod', true)}
+                value={targetAmount}
+                onChange={getChangeHandler('targetAmount')}
                 placeholder="0"
               />
             </div>
@@ -142,7 +167,6 @@ const AssetGoalCalculator = () => {
                 placeholder="0"
               />
             </div>
-           
             <div>
               <label htmlFor="currentAssets" className="block text-sm font-medium mb-1">
                 현재 자산 (원)
@@ -180,7 +204,6 @@ const AssetGoalCalculator = () => {
                 placeholder="0"
               />
             </div>
-            
           </div>
         </CardContent>
       </Card>
@@ -192,10 +215,10 @@ const AssetGoalCalculator = () => {
           {years !== null ? (
             <div className="space-y-2">
               <p className="text-lg font-semibold">
-                🏖낙원🏖 목표 자산은 {actualTargetAmount && <span>
-                <TargetAmountDescription actualTargetAmount={actualTargetAmount}/> {isApplyInflation ? ` (물가상승률: ↑${(inflation||0)*100}%)` : ''}</span>} 입니다.
+                🏖낙원🏖 {isDividendGoal ? "배당금" : "금액"} 달성까지 약 <span className="font-semibold underline decoration-primary">{years}</span>년이 걸립니다.
               </p>
-              
+              {actualTargetAmount && <p>달성 금액: &nbsp;
+                <TargetAmountDescription actualTargetAmount={actualTargetAmount}/> {isApplyInflation ? ` (물가상승률: ↑${(inflation||0)*100}%)` : ''}</p>}
               {annualDividend && <p>달성 후 예상 배당금:&nbsp;
               <MonthlyDividendDescription
                   years={String(years)}
@@ -255,7 +278,7 @@ const MonthlyDividendDescription = (props:{annualDividend:number; actualTargetAm
       </HoverCardTrigger>
       <HoverCardContent className="w-96">
         {props.years}년 후 {props.dividendYield}%의 배당수익율로 월 <AccentNumberText value={props.annualDividend/12} />의 배당수입을 만들 수 있습니다. <br/>
-        영구적인 배당(낙원)을 유지하기 위해서는 자산(<AccentNumberText value={props.actualTargetAmount!}/>)이 매년 <AccentText value={`저축증가율${(props.isApplyInflation ? `(${props.inflation! * 100}%)` : '')}`}/>만큼 증가해야 합니다.<br/>
+        영구적인 배당(낙원)을 유지하기 위해서는 자산(<AccentNumberText value={props.actualTargetAmount!}/>)이 매년 <AccentText value={`물가상승률${(props.isApplyInflation ? `(${props.inflation! * 100}%)` : '')}`}/>만큼 증가해야 합니다.<br/>
         배당중 일부는 다시 자산으로 재투자를 하거나 배당을 제외하고 물가상승을 따라가는 자산에 투자해야 합니다.
       </HoverCardContent>
     </HoverCard>
