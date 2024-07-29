@@ -99,7 +99,7 @@ const AssetGoalCalculator = () => {
   }
 
   return (
-    <main className="p-4 max-w-screen-lg mx-auto">
+    <main className="w-full">
       <h1 className="text-lg font-bold">
         🏖 낙원 자산(💰) 계산기 <span className="text-sm font-medium">(목표 자산 계산하기)</span>
       </h1>

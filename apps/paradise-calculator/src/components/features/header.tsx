@@ -26,8 +26,8 @@ const Header = () => {
           </div>
 
           <nav className="space-x-8">
-            <Link href="/goal-line" className={cn('text-gray-600', getSelectedClassNames(pathname === '/goal-line'))} title="낙원 시간 계산기">낙원 🏁 계산기</Link>
-            <Link href="/goal-assets" className={cn('text-gray-600', getSelectedClassNames(pathname === '/goal-assets'))} title="낙원 자산 계산기">낙원 💰 계산기</Link>
+            <Link href="/goal-line" className={cn('text-gray-600', getSelectedClassNames(pathname === '/goal-line'))} title="낙원 시간 계산기">낙원 기간 🏁</Link>
+            <Link href="/goal-assets" className={cn('text-gray-600', getSelectedClassNames(pathname === '/goal-assets'))} title="낙원 자산 계산기">낙원 자산 💰</Link>
             <Link href="/goal-interest" className={cn('text-gray-600', getSelectedClassNames(pathname === '/goal-interest'))} title="목표 수익율">목표 수익율</Link>
           </nav>
         </div>

@@ -12,7 +12,7 @@ const config = {
   theme: {
     screens: {
       "2xs": "320px",
-      "xs": "360px",
+      "xs": "420px",
       "md": "860px",
       "lg": "1080px",
     },

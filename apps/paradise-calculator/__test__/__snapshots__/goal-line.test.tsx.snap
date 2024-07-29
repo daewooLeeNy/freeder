@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`낙원 자산 화면 기본값이 설정된 진입 페이지: 기본값 1`] = `
+exports[`낙원 기간 목표 화면 기본값이 설정된 진입 페이지: 기본값 1`] = `
 <div>
   <main
     class="w-full"
@@ -8,17 +8,17 @@ exports[`낙원 자산 화면 기본값이 설정된 진입 페이지: 기본값
     <h1
       class="text-lg font-bold"
     >
-      🏖 낙원 자산(💰) 계산기 
+      🏖 낙원 시간(🏁) 계산기 
       <span
         class="text-sm font-medium"
       >
-        (목표 자산 계산하기)
+        (은퇴시기 계산하기)
       </span>
     </h1>
     <p
       class="text-sm"
     >
-      여러분의 낙원(경제적 자유)을 만들기 위해 자산💰 목표를 세워보세요. 여러분은 이미 낙원🏖에 한발자국👟👟 다가갔습니다.
+      여러분의 낙원(경제적 자유)까지 얼마나 걸리는지 계산해보세요. 여러분은 이미 낙원🏖에 한발자국👟👟 다가갔습니다.
     </p>
     <div
       class="rounded-xl border bg-card text-card-foreground shadow my-4"
@@ -41,12 +41,12 @@ exports[`낙원 자산 화면 기본값이 설정된 진입 페이지: 기본값
               class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               for="dividend-goal-main"
             >
-              저축 증가율
+              배당 목표
             </label>
             <button
-              aria-checked="true"
+              aria-checked="false"
               class="peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input"
-              data-state="checked"
+              data-state="unchecked"
               id="dividend-goal-main"
               role="switch"
               type="button"
@@ -54,7 +54,7 @@ exports[`낙원 자산 화면 기본값이 설정된 진입 페이지: 기본값
             >
               <span
                 class="pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"
-                data-state="checked"
+                data-state="unchecked"
               />
             </button>
           </div>
@@ -103,16 +103,16 @@ exports[`낙원 자산 화면 기본값이 설정된 진입 페이지: 기본값
           <div>
             <label
               class="block text-sm font-medium mb-1"
-              for="dividendYield"
+              for="targetAmount"
             >
-              낙원(자유) 기간
+              목표 금액 (원)
             </label>
             <input
               class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-              id="targetPeriod"
+              id="targetAmount"
               placeholder="0"
               type="text"
-              value="10"
+              value="1,000,000,000"
             />
           </div>
           <div>
@@ -199,22 +199,30 @@ exports[`낙원 자산 화면 기본값이 설정된 진입 페이지: 기본값
           <p
             class="text-lg font-semibold"
           >
-            🏖낙원🏖 목표 자산은 
-            <span>
-              <a
-                class="cursor-pointer"
-                data-state="closed"
-              >
-                <span
-                  class="font-semibold underline decoration-primary"
-                >
-                  ₩616,467,412
-                </span>
-              </a>
-               
-               (물가상승률: ↑3%)
+            🏖낙원🏖 
+            금액
+             달성까지 약 
+            <span
+              class="font-semibold underline decoration-primary"
+            >
+              19
             </span>
-             입니다.
+            년이 걸립니다.
+          </p>
+          <p>
+            달성 금액:  
+            <a
+              class="cursor-pointer"
+              data-state="closed"
+            >
+              <span
+                class="font-semibold underline decoration-primary"
+              >
+                ₩1,857,991,759
+              </span>
+            </a>
+             
+             (물가상승률: ↑3%)
           </p>
           <p>
             달성 후 예상 배당금: 
@@ -224,7 +232,7 @@ exports[`낙원 자산 화면 기본값이 설정된 진입 페이지: 기본값
               <span
                 class="font-semibold underline decoration-primary cursor-pointer"
               >
-                ₩2,568,614
+                ₩7,741,632
                 /월 
               </span>
             </a>
@@ -232,7 +240,7 @@ exports[`낙원 자산 화면 기본값이 설정된 진입 페이지: 기본값
             <span
               class="font-semibold underline decoration-primary"
             >
-              ₩30,823,371
+              ₩92,899,588
               /연
             </span>
           </p>

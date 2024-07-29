@@ -64,7 +64,7 @@ const GoalInterestCalculator = () => {
   }, [currentAssets, annualSavings, targetAmount, years]);
 
   return (
-    <main className="p-4 max-w-screen-lg mx-auto">
+    <main className="w-full">
       <h1 className="text-lg font-bold mb-4">
         목표 수익율 계산하기
       </h1>
