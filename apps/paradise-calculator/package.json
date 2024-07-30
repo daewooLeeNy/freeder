@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "deploy": "cp -R out/ ../../../daewooLeeNy.github.io/",
+    "deploy:site": "cp -R out/ ../../../daewooLeeNy.github.io/",
+    "deploy:site:internal": "cp -R out/ ../../docs",
     "lint": "next lint",
     "test": "jest",
     "test:watch": "test --watch"
