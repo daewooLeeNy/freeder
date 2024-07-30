@@ -8,7 +8,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  assetPrefix: prefix
+  basePath: '/mystudyshare'
+  // assetPrefix: prefix
 };
 
 export default nextConfig;
