@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import KakaoAdfitScript from "@/components/ads/adfit";
+import KakaoAdfitScript, { KakaoAdfit } from "@/components/ads/adfit";
 import { GoogleAnalytics } from '@next/third-parties/google'
 
 const inter = Inter({ subsets: ["latin"] });
@@ -29,7 +29,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
-      <KakaoAdfitScript />
       <GoogleAnalytics gaId="UA-61646850-3" />
     </html>
   );

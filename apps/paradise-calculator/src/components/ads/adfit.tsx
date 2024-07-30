@@ -1,16 +1,44 @@
+'use client';
+
 import { cn } from "@/lib/utils";
 import Script from "next/script";
+import React from "react";
+
+function KakaoAdfitBase() {
+  // 최초 1회만 광고를 불러오기 위한 변수
+  const adRef = React.useRef<boolean>(false);
+  React.useEffect(() => {
+    // 로딩된 광고가 있으면, 추가 로딩 X
+    if (adRef.current) {
+      return;
+    }
+
+    const script = document.createElement('script');
+    // 윈도우 사이즈에 따라 광고 사이즈 조정(사이즈마다 해당 광고 단위 ID 적용)
+
+    script.async = true;
+    script.type = 'text/javascript';
+    script.src = '//t1.daumcdn.net/kas/static/ba.min.js';
+
+    document.querySelector('.aside__kakaoAdFit')?.appendChild(script);
+    
+    // 광고 로딩 여부 상태 변경
+    adRef.current = true;
+  }, []);
+  return (
+    <div className="aside__kakaoAdFit"></div>
+  );
+}
+const KakaoAdfit = React.memo(KakaoAdfitBase)
+export { KakaoAdfit };
 
 const KakaoAdfitScript: React.FC = () => {
-  if (process.env.NODE_ENV !== "production") {
-    return null;
-  }
   return (
     <Script
       async
-      src={`https:////t1.daumcdn.net/kas/static/ba.min.js`}
-      crossOrigin="anonymous"
+      src={`https://t1.daumcdn.net/kas/static/ba.min.js`}
       strategy="afterInteractive"
+      referrerPolicy="origin-when-cross-origin"
     />
   );
 };

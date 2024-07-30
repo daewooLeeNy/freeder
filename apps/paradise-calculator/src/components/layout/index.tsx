@@ -1,4 +1,4 @@
-import { KakaoAdfitMobileHorizontalMiniContent, KakaoAdfitPcVerticalContent } from '@/components/ads/adfit';
+import { KakaoAdfit, KakaoAdfitMobileHorizontalMiniContent, KakaoAdfitPcVerticalContent } from '@/components/ads/adfit';
 import {  GoalAssetProvider } from '@/components/features/asset-goal/goal-assets-context';
 import Header from '@/components/features/header';
 
@@ -25,6 +25,8 @@ export default function PageLayout({
           </div>
         </div>
       </GoalAssetProvider>
+
+      <KakaoAdfit />
     </div>
   )
 }
