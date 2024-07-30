@@ -215,7 +215,7 @@ const AssetGoalCalculator = () => {
       {annaulAssetData.length > 0 && (
         <>
           <AssetGraph annaulAssetData={annaulAssetData}/>
-          <HistoryTable annaulAssetData={annaulAssetData}/>
+          <HistoryTable annaulAssetData={annaulAssetData} displayTargetAmount={false}/>
         </>
       )}
     </main>

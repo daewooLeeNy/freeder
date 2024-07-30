@@ -13,7 +13,7 @@ const AssetGraph = ({annaulAssetData}: {annaulAssetData: AssetGoalAnnualDataType
               <ResponsiveContainer width="100%" height={300}>
                 <AreaChart data={annaulAssetData}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="year" label={{ value: "년도", position: "insideBottom", offset: -10 }} />
+                  <XAxis dataKey="year" />
                   <YAxis
                     fontSize={'10px'}
                     tickFormatter={(value) => `${(value / 1000000).toLocaleString()}백만`}

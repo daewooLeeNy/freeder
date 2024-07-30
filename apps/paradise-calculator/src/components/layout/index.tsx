@@ -13,15 +13,15 @@ export default function PageLayout({
         <Header/>
         <div className="flex justify-center">
           <div className="hidden md:block min-w-[160px] text-right">
-            <KakaoAdfitPcVerticalContent position={'left'} adUnit='DAN-vFXFSQacv72TiY1J'/>
+            <KakaoAdfitPcVerticalContent position={'left'} adUnit='DAN-THFZcqVwN5SWL6CC'/>
           </div>
-          <main className="flex-1 p-4 max-w-screen-lg flex flex-col items-center">
-            <KakaoAdfitMobileHorizontalMiniContent adUnit="DAN-ZDHmNytrx0HyaM0f" className="block xs:hidden w-full h-[50px]"/>
-            <KakaoAdfitMobileHorizontalMiniContent adUnit="DAN-RSBMwEUEBExgy8AQ" className="hidden xs:block lg:hidden w-full h-[90px]"/>
+          <main className="flex-1 p-4 max-w-screen-lg flex flex-col items-center w-full">
+            <KakaoAdfitMobileHorizontalMiniContent adUnit="DAN-pL8lSXeq6mD6flLp" className="block xs:hidden w-full h-[50px]"/>
+            <KakaoAdfitMobileHorizontalMiniContent adUnit="DAN-FCxO4Un26IBrAeb9" className="hidden xs:block lg:hidden w-full h-[90px]"/>
             {children}
           </main>
           <div className="hidden md:block min-w-[160px]">
-            <KakaoAdfitPcVerticalContent position={'right'} adUnit='DAN-6rsUT4xbGLJCP6m0'/>
+            <KakaoAdfitPcVerticalContent position={'right'} adUnit='DAN-WOH2SPtRZfgNWUKE'/>
           </div>
         </div>
       </GoalAssetProvider>

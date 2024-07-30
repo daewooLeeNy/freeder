@@ -6,11 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "deploy": "cp -R out/ ../../../daewooLeeNy.github.io/",
     "lint": "next lint",
     "test": "jest",
     "test:watch": "test --watch"
   },
   "dependencies": {
+    "@next/third-parties": "^14.2.5",
     "@radix-ui/react-collapsible": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-hover-card": "^1.1.1",

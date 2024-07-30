@@ -145,7 +145,7 @@ const AssetGoalCalculator = () => {
           <div className="grid grid-cols-2 space-4 gap-4">
               <div>
               <label htmlFor="targetAmount" className="block text-sm font-medium mb-1">
-                {isDividendGoal ? "목표 연간 배당금 (원)" : "목표 금액 (원)"}
+                {isDividendGoal ? "낙원(목표) 연배당금₩" : "낙원(목표) 금액₩"}
               </label>
               <Input
                 id="targetAmount"
