@@ -1,5 +1,5 @@
 const prefix =
-  process.env.NODE_ENV === 'production' ? 'https://keep-ones.me/mystudyshare' : ''
+  process.env.NODE_ENV === 'production' ? 'https://keep-ones.me/freeder' : ''
 
 
 /** @type {import('next').NextConfig} */
@@ -8,8 +8,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/mystudyshare'
-  // assetPrefix: prefix
+  basePath: '/freeder'
 };
 
 export default nextConfig;

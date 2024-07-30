@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 
 
+const IMAGE_PATH = process.env.NEXT_PUBLIC_IMAGE_PATH
 const Header = () => {
   const pathname = usePathname();
   const assetAttr = useAssetGoalAttributes()
@@ -22,7 +23,7 @@ const Header = () => {
       <div className={cn("flex items-center justify-between w-full max-w-screen-lg mx-auto", hasSettings && "pr-8")}>
         <div className="flex items-center gap-4 xs:gap-12">
           <div className="flex gap-2">
-            <Image src="/logo.png" width="30" height="30" alt="freeder logo"/>
+            <Image src={`${IMAGE_PATH}/logo.png`} width="30" height="30" alt="freeder logo"/>
             <h1 className="text-black text-xl font-bold">Freeder</h1>
           </div>
 
